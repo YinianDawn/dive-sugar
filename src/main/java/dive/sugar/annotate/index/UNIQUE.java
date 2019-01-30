@@ -27,6 +27,14 @@ public @interface UNIQUE {
     String name() default "";
 
     /**
+     * 需要索引的列名称
+     * alias for names
+     *
+     * @return 列名称
+     */
+    String[] value() default {};
+
+    /**
      * 被索引的列
      * 属性上默认本属性
      *
@@ -48,5 +56,11 @@ public @interface UNIQUE {
      * @return 是否唯一索引
      */
     boolean unique() default true;
+
+    /**
+     * 是否启用
+     * @return 是否启用
+     */
+    boolean useful() default true;
 
 }

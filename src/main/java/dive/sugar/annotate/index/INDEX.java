@@ -29,6 +29,14 @@ public @interface INDEX {
 
     /**
      * 需要索引的列名称
+     * alias for names
+     *
+     * @return 列名称
+     */
+    String[] value() default {};
+
+    /**
+     * 需要索引的列名称
      * 属性前默认为本属性
      *
      * @return 列名称
@@ -49,5 +57,11 @@ public @interface INDEX {
      * @return 是否唯一索引
      */
     boolean unique() default false;
+
+    /**
+     * 是否启用
+     * @return 是否启用
+     */
+    boolean useful() default true;
 
 }
