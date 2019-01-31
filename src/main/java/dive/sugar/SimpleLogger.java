@@ -10,7 +10,7 @@ import java.util.function.Function;
  *
  * @author dawn
  */
-class Logger {
+public class Logger {
 
     private static final Function<String, String> PACK1 =
             s -> {
