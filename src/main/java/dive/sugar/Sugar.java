@@ -1,9 +1,9 @@
 package dive.sugar;
 
 import dive.sugar.annotate.TRANSIENT;
+import dive.sugar.model.Base;
 import dive.sugar.model.Column;
 import dive.sugar.model.Table;
-import javafx.scene.control.Tab;
 
 import javax.persistence.Transient;
 import java.io.File;
@@ -29,7 +29,7 @@ public class Sugar {
     /**
      * 日志
      */
-    private Logger log;
+    private SimpleLogger log;
 
     /**
      * 数据库驱动
@@ -130,7 +130,10 @@ public class Sugar {
 
 
 
-    private Sugar() {}
+    private Sugar() {
+        this.log = new SimpleLogger();
+        Base.log = this.log;
+    }
 
     /**
      * 构建实例对象

@@ -13,6 +13,8 @@ import java.util.regex.Pattern;
  */
 public class Base {
 
+    public static SimpleLogger log;
+
     /**
      * 标识是否有效
      */
@@ -20,18 +22,6 @@ public class Base {
 
     public boolean isValid() {
         return valid;
-    }
-
-    /**
-     * 获取配置信息
-     */
-    protected Sugar sugar;
-
-    protected SimpleLogger log;
-
-    public Base(Sugar sugar) {
-        this.sugar = sugar;
-        this.log = sugar.getSimpleLogger();
     }
 
     /**
@@ -105,6 +95,16 @@ public class Base {
         }
         return -1 == end || d.length() < end ?
                 d : d.substring(start, end);
+    }
+
+    protected static boolean checkComment(String c1, String c2) {
+        if (useful(c1) && !useful(c2)) {
+            return false;
+        }
+        if (!useful(c1) && useful(c2)) {
+            return false;
+        }
+        return !useful(c1) || c1.equals(c2);
     }
 
     protected static boolean exist(Object check) {

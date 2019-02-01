@@ -10,7 +10,7 @@ import java.util.function.Function;
  *
  * @author dawn
  */
-public class Logger {
+public class SimpleLogger {
 
     private static final Function<String, String> PACK1 =
             s -> {
@@ -52,7 +52,7 @@ public class Logger {
      */
     private Function<String, String> errorPack = PACK1;
 
-    Logger() {}
+    SimpleLogger() {}
 
     /**
      * 设置是否输出日志
