@@ -16,12 +16,17 @@ public class Base {
     public static SimpleLogger log;
 
     /**
+     * 是否启用
+     */
+    protected boolean useful = true;
+
+    /**
      * 标识是否有效
      */
     protected boolean valid = false;
 
     public boolean isValid() {
-        return valid;
+        return this.useful && this.valid;
     }
 
     /**

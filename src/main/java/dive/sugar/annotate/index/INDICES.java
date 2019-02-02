@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface INDEXES {
+public @interface INDICES {
 
     /**
      * 允许多个索引

@@ -55,7 +55,7 @@ public class Sugar {
     /**
      * 是否从父类继承列属性
      */
-    private boolean extend = true;
+    private boolean extend = false;
     /**
      * 是否驼峰命名
      * false 会将 大写字母变小写加下划线

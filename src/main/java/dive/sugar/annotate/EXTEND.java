@@ -18,10 +18,17 @@ public @interface EXTEND {
 
     /**
      * 继承类
+     *
      * @return 继承类
      */
     Class[] value() default {};
 
+    /**
+     * 排出的列名
+     *
+     * @return 排出的列
+     */
+    String[] exclude() default {};
 
     /**
      * 是否启用

@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target({TYPE, FIELD})
 @Retention(RUNTIME)
-@Repeatable(INDEXES.class)
+@Repeatable(INDICES.class)
 public @interface INDEX {
 
     /**
