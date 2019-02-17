@@ -528,6 +528,11 @@ public abstract class BaseColumn extends Base {
         }
     }
 
+    /**
+     * 初始化值 变 字符串
+     * @param value 初始化值
+     * @return 字符串值
+     */
     public abstract String value(Object value);
 
     String getPlace() {
