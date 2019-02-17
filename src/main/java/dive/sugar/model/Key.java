@@ -1,14 +1,13 @@
 package dive.sugar.model;
 
-import dive.sugar.Sugar;
 import dive.sugar.annotate.index.INDEX;
 import dive.sugar.annotate.index.UNIQUE;
 
-import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static sun.management.Agent.error;
 
 /**
  * 索引
@@ -40,15 +39,12 @@ public class Key extends Base {
      * @param names   被索引的列
      * @param comment 注释
      * @param unique  是否唯一索引
-     * @param useful 是否启用
      */
-    private Key(String name, String[] names,
-                String comment, Boolean unique, Boolean useful) {
+    private Key(String name, String[] names, String comment, Boolean unique) {
         this.name = name;
         this.names = names;
         this.comment = comment;
         this.unique = unique;
-        super.useful = useful;
     }
 
     /**
@@ -149,10 +145,9 @@ public class Key extends Base {
             return false;
         }
         Key key = (Key) o;
-        return Arrays.equals(names, key.names) &&
-                checkComment(comment, key.comment) &&
-                Objects.equals(isTrue(unique), isTrue(key.unique)) &&
-                super.useful == key.useful;
+        return Arrays.equals(this.names, key.names) &&
+                checkComment(this.comment, key.comment) &&
+                Objects.equals(isTrue(this.unique), isTrue(key.unique));
     }
 
     @Override
@@ -162,14 +157,13 @@ public class Key extends Base {
                 ", names=" + Arrays.toString(this.names) +
                 ", comment='" + this.comment + '\'' +
                 ", unique=" + this.unique +
-                ", useful=" + super.useful +
                 '}';
     }
 
     // =================== tools ======================
 
     private static Key build(String name, String[] names, String omit,
-                             String comment, boolean unique, boolean useful) {
+                             String comment, boolean unique) {
         if (0 == names.length) {
             if (!useful(omit)) {
                 log.error("does not have any name.");
@@ -177,15 +171,15 @@ public class Key extends Base {
             }
             names = new String[]{omit};
         }
-        return new Key(name.trim(), names, comment.trim(), unique, useful);
+        return new Key(name.trim(), names, comment.trim(), unique);
     }
 
     private static Key build(INDEX index, String omit) {
-        return build(index.name(), index.names(), omit, index.comment(), index.unique(), index.useful());
+        return build(index.name(), index.names(), omit, index.comment(), index.unique());
     }
 
     private static Key build(UNIQUE unique, String omit) {
-        return build(unique.name(), unique.names(), omit, unique.comment(), unique.unique(), unique.useful());
+        return build(unique.name(), unique.names(), omit, unique.comment(), unique.unique());
     }
 
     private static List<Key> build(INDEX[] indices, String omit) {
