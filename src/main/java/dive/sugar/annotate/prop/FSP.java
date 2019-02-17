@@ -22,11 +22,4 @@ public @interface FSP {
      */
     int value() default 0;
 
-    /**
-     * 是否启用
-     *
-     * @return 是否启用
-     */
-    boolean useful() default true;
-
 }

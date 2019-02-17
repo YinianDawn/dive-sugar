@@ -15,19 +15,4 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({FIELD})
 @Retention(RUNTIME)
 public @interface PRIMARY {
-
-    /**
-     * 是否启用 alias for useful
-     *
-     * @return 是否启用
-     */
-    boolean value() default true;
-
-    /**
-     * 是否启用
-     *
-     * @return 是否启用
-     */
-    boolean useful() default true;
-
 }

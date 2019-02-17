@@ -22,11 +22,4 @@ public @interface ENGINE {
      */
     String value() default "InnoDB";
 
-    /**
-     * 是否启用
-     *
-     * @return 是否启用
-     */
-    boolean useful() default true;
-
 }

@@ -58,10 +58,4 @@ public @interface INDEX {
      */
     boolean unique() default false;
 
-    /**
-     * 是否启用
-     * @return 是否启用
-     */
-    boolean useful() default true;
-
 }

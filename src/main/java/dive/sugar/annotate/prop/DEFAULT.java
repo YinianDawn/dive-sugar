@@ -22,11 +22,5 @@ public @interface DEFAULT {
      */
     String value();
 
-    /**
-     * 是否启用
-     *
-     * @return 是否启用
-     */
-    boolean useful() default true;
 
 }

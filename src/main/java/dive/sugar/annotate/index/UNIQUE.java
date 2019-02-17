@@ -57,10 +57,4 @@ public @interface UNIQUE {
      */
     boolean unique() default true;
 
-    /**
-     * 是否启用
-     * @return 是否启用
-     */
-    boolean useful() default true;
-
 }

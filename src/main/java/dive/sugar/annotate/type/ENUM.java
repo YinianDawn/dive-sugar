@@ -14,5 +14,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(FIELD)
 @Retention(RUNTIME)
 public @interface ENUM {
+
+    /**
+     * 枚举值
+     *
+     * @return 值
+     */
     String[] value() default {};
+
 }

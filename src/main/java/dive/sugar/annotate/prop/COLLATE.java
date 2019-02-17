@@ -26,11 +26,4 @@ public @interface COLLATE {
      */
     String value() default "utf8mb4_general_ci";
 
-    /**
-     * 是否启用
-     *
-     * @return 是否启用
-     */
-    boolean useful() default true;
-
 }

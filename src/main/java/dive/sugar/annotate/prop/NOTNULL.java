@@ -14,20 +14,4 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(FIELD)
 @Retention(RUNTIME)
 public @interface NOTNULL {
-
-    /**
-     * 是否非空
-     * alias for useful
-     *
-     * @return 是否非空
-     */
-    boolean value() default true;
-
-    /**
-     * 是否启用
-     *
-     * @return 是否启用
-     */
-    boolean useful() default true;
-
 }

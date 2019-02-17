@@ -23,11 +23,4 @@ public @interface ON_UPDATE {
      */
     String value() default "CURRENT_TIMESTAMP";
 
-    /**
-     * 是否启用
-     *
-     * @return 是否启用
-     */
-    boolean useful() default true;
-
 }

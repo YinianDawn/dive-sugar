@@ -22,11 +22,4 @@ public @interface TABLE {
      */
     String value() default "";
 
-    /**
-     * 是否启用
-     *
-     * @return 是否启用
-     */
-    boolean useful() default true;
-
 }

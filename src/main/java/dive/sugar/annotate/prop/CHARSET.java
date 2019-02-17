@@ -26,11 +26,4 @@ public @interface CHARSET {
      */
     String value() default "utf8mb4";
 
-    /**
-     * 是否启用
-     *
-     * @return 是否启用
-     */
-    boolean useful() default true;
-
 }

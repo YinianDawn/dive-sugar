@@ -14,19 +14,4 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(FIELD)
 @Retention(RUNTIME)
 public @interface ZEROFILL {
-    /**
-     * 是否以0填充
-     * alias for useful
-     *
-     * @return 是否以0填充
-     */
-    boolean value() default true;
-
-    /**
-     * 是否启用
-     *
-     * @return 是否启用
-     */
-    boolean useful() default true;
-
 }
