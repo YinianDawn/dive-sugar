@@ -15,7 +15,7 @@ import java.util.function.Consumer;
  */
 abstract class BaseDateColumn extends BaseColumn {
 
-    SimpleDateFormat SDF;
+    static SimpleDateFormat SDF;
     static java.util.Date min;
     static java.util.Date max;
 
