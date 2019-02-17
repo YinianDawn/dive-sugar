@@ -2,7 +2,7 @@ package dive.sugar;
 
 import dive.sugar.annotate.TRANSIENT;
 import dive.sugar.model.Base;
-import dive.sugar.model.Column;
+import dive.sugar.model.BaseColumn;
 import dive.sugar.model.Table;
 
 import javax.persistence.Transient;
@@ -96,11 +96,11 @@ public class Sugar {
     /**
      * 某一类型的默认列类型
      */
-    private Map<Class, Column> omitByClass = new HashMap<>();
+    private Map<Class, BaseColumn> omitByClass = new HashMap<>();
     /**
      * 某一数据类型的默认列类型
      */
-    private Map<String, Column> omitByType = new HashMap<>();
+    private Map<String, BaseColumn> omitByType = new HashMap<>();
 
     /**
      * 忽略不用建表的类
@@ -316,7 +316,7 @@ public class Sugar {
      * @param column 列类型
      * @return 本实例
      */
-    public Sugar omit(Class type, Column column) {
+    public Sugar omit(Class type, BaseColumn column) {
         this.omitByClass.put(type, column);
         return this;
     }
@@ -327,7 +327,7 @@ public class Sugar {
      * @param column 列类型
      * @return 本实例
      */
-    public Sugar omit(String type, Column column) {
+    public Sugar omit(String type, BaseColumn column) {
         this.omitByType.put(type.toUpperCase(), column);
         return this;
     }
@@ -511,4 +511,15 @@ public class Sugar {
         this.log.info("--------  completed  --------");
     }
 
+    public Map<Class, BaseColumn> getOmitByClass() {
+        return this.omitByClass;
+    }
+
+    public Map<String, BaseColumn> getOmitByType() {
+        return this.omitByType;
+    }
+
+    public boolean isCamel() {
+        return camel;
+    }
 }

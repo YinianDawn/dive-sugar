@@ -8,7 +8,7 @@ import dive.sugar.annotate.index.UNIQUE;
 import dive.sugar.annotate.prop.BINARY;
 import dive.sugar.annotate.prop.*;
 import dive.sugar.annotate.type.*;
-import dive.sugar.model.type.NullColumn;
+import dive.sugar.model.type.ModelColumn;
 import dive.sugar.model.type.number.Double;
 import dive.sugar.model.type.number.Float;
 import dive.sugar.model.type.number.*;
@@ -642,7 +642,7 @@ public abstract class BaseColumn extends Base {
         }
 
         public BaseColumn build() {
-            BaseColumn c = new NullColumn();
+            BaseColumn c = new ModelColumn();
 
             c.values = this.values;
             c.length = this.length;
