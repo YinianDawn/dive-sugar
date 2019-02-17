@@ -182,13 +182,13 @@ public class Key extends Base {
         return build(unique.name(), unique.names(), omit, unique.comment(), unique.unique());
     }
 
-    private static List<Key> build(INDEX[] indices, String omit) {
+    static List<Key> build(INDEX[] indices, String omit) {
         return Arrays.stream(indices)
                 .map(index -> build(index, omit))
                 .collect(Collectors.toList());
     }
 
-    private static List<Key> build(UNIQUE[] uniques, String omit) {
+    static List<Key> build(UNIQUE[] uniques, String omit) {
         return Arrays.stream(uniques)
                 .map(unique -> build(unique, omit))
                 .collect(Collectors.toList());

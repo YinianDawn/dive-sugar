@@ -14,13 +14,4 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(FIELD)
 @Retention(RUNTIME)
 public @interface UNSIGNED {
-
-    /**
-     * 是否无符号
-     * alias for useful
-     *
-     * @return 是否无符号
-     */
-    boolean value() default true;
-
 }
