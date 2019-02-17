@@ -1,7 +1,6 @@
 package dive.sugar.model;
 
 import dive.sugar.SimpleLogger;
-import dive.sugar.Sugar;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,17 +15,12 @@ public class Base {
     public static SimpleLogger log;
 
     /**
-     * 是否启用
-     */
-    protected boolean useful = true;
-
-    /**
      * 标识是否有效
      */
     protected boolean valid = false;
 
     public boolean isValid() {
-        return this.useful && this.valid;
+        return this.valid;
     }
 
     /**
@@ -87,6 +81,12 @@ public class Base {
         return null;
     }
 
+    /**
+     * 子串
+     * @param d 定义
+     * @param index 跳过长度
+     * @return 子串
+     */
     protected static String substring(String d, int index) {
         if (!exist(d)) {
             return "";
@@ -94,6 +94,13 @@ public class Base {
         return 0 < index && index < d.length() ? d.substring(index) : "";
     }
 
+    /**
+     * 截取字符串
+     * @param d 定义
+     * @param start 开始位置
+     * @param end 结束位置
+     * @return 子串
+     */
     protected static String substring(String d, int start, int end) {
         if (!exist(d)) {
             return "";
@@ -102,6 +109,12 @@ public class Base {
                 d : d.substring(start, end);
     }
 
+    /**
+     * 注释是否相同
+     * @param c1 原注释
+     * @param c2 新注释
+     * @return 是否相同
+     */
     protected static boolean checkComment(String c1, String c2) {
         if (useful(c1) && !useful(c2)) {
             return false;
