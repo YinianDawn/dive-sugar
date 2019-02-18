@@ -268,7 +268,7 @@ public abstract class BaseColumn extends Base {
                 // from model
                 if (exist(this.model) && exist(this.model.decimals)) {
                     this.decimals = this.model.decimals;
-                    from = "type";
+                    from = "Model";
                 }
             }
         }
@@ -521,7 +521,7 @@ public abstract class BaseColumn extends Base {
     }
 
     void setAutoIncrement() {
-        if (this instanceof IntegerColumn) {
+        if (this instanceof BaseIntegerColumn) {
             this.autoIncrement = true;
         } else {
             log.error("{} can not be auto increment", type);
