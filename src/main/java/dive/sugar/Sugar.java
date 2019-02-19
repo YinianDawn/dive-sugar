@@ -337,7 +337,7 @@ public class Sugar {
      * @param table 类
      * @return 本实例
      */
-    public Sugar delete(Class table) {
+    public Sugar omit(Class table) {
         this.deleted.add(table);
         return this;
     }

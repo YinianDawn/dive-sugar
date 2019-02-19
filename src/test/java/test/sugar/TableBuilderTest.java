@@ -33,31 +33,34 @@ public class TableBuilderTest {
         hobbies.add("234");
         hobbies.add("345");
         Unique unique = new Unique("123", hobbies);
-        Sugar builder =
-                new Sugar()
-                        .info(System.out::println)
-                        .error(System.err::println)
-                        .connect(driver, url, username, password)
-//                        .auto("recreate")
-                        .auto("update")
-                        .omit("VARCHAR",
-                                new VarChar.Builder()
-                                        .length(255)
-                                        .build())
-                        .omit(Sex.class)
-                        .extend(Unique2.class)
-                        .prepareAll(Unique.class)
-                        .initial(Unique.class, "(`id`) VALUES (1)")
-                        .initial(Unique.class, "(`name`) VALUES ('123')")
-                        .initial(Unique.class, "(`name`) VALUES ('1234')")
-                        .initial(Unique.class, "(`sex`) VALUES ('男')")
-                        .initial(Unique.class, unique)
-                        .initial(Unique.class, unique)
-                        .initial(Unique.class, unique)
-                        .initial(Unique.class, unique)
+        Sugar.build()
+                .info(System.out::println)
+                .error(System.err::println)
 
+                .connect(driver, url, username, password)
 
-                        .check();
+                .auto("recreate")
+                .auto("update")
+
+                .omit("VARCHAR",
+                        new VarChar.Builder()
+                                .length(255)
+                                .build())
+
+                .omit(Sex.class)
+                .noExtend(Unique2.class)
+                .prepareAll(Unique.class)
+
+                .initial(Unique.class, "(`id`) VALUES (1)")
+                .initial(Unique.class, "(`name`) VALUES ('123')")
+                .initial(Unique.class, "(`name`) VALUES ('1234')")
+                .initial(Unique.class, "(`sex`) VALUES ('男')")
+                .initial(Unique.class, unique)
+                .initial(Unique.class, unique)
+                .initial(Unique.class, unique)
+                .initial(Unique.class, unique)
+
+                .check();
     }
 
 }

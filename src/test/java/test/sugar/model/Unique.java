@@ -9,7 +9,7 @@ import dive.sugar.annotate.type.SET;
 import java.util.Date;
 import java.util.Set;
 
-@CHARSET("utf8mb4")
+@CHARSET
 @UNIQUE(names = {"age", "sex"}, unique = false)
 public class Unique {
 
