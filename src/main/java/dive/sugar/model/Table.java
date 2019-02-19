@@ -166,6 +166,16 @@ public class Table extends Base {
                     }
                 }
                 removed.forEach(i -> p.columns.remove(i.intValue()));
+                OTTER:
+                for (int i = p.columns.size() - 1; 0 <= i; i--) {
+                    String name = p.columns.get(i).name;
+                    for (BaseColumn c : columns) {
+                        if (c.name.equals(name)) {
+                            p.columns.remove(i);
+                            continue OTTER;
+                        }
+                    }
+                }
                 p.columns.addAll(columns);
                 columns = p.columns;
             }
@@ -257,6 +267,10 @@ public class Table extends Base {
         charset = pattern(rr, "CHARSET=", "\\b");
         collate = pattern(rr, "COLLATE=", "\\b");
         comment = pattern(rr, "COMMENT='", "\\'");
+
+        if ("utf8mb4".equals(charset) && null == collate) {
+            collate = "utf8mb4_general_ci";
+        }
 
         String[] cs = tableDefinition.
                 substring(l + 1, r).trim().split(",\n\\s+");
@@ -616,7 +630,7 @@ public class Table extends Base {
         try {
             if (useful(want)) {
                 sql = "ALTER TABLE `" + name + "` " + define + "='" +  want + "'";
-                log.error("table {}: change setting {}: ", name, define, sql);
+                log.error("table {}: change setting {}: {}", name, define, sql);
                 stmt.execute(sql);
             }
         } catch (SQLException e) {

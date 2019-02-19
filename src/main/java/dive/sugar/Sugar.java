@@ -80,11 +80,11 @@ public class Sugar {
     /**
      * 默认字符集
      */
-    private String charset;
+    private String charset = "utf8mb4";
     /**
      * 默认排序方式
      */
-    private String collate;
+    private String collate = "utf8mb4_general_ci";
     /**
      * 构建方式
      * recreate 总是删除重建
@@ -111,6 +111,11 @@ public class Sugar {
      * 继承的类信息
      */
     private HashMap<Class, Class> extendInfo = new HashMap<>();
+
+    /**
+     * 不继承的表
+     */
+    private Set<Class> noExtend = new HashSet<>();
 
     /**
      * 若是新建表，需要插入的对象
@@ -337,7 +342,7 @@ public class Sugar {
      * @param table 类
      * @return 本实例
      */
-    public Sugar omit(Class table) {
+    public Sugar delete(Class table) {
         this.deleted.add(table);
         return this;
     }
@@ -359,7 +364,7 @@ public class Sugar {
      * @return 本实例
      */
     public Sugar noExtend(Class table) {
-        this.extendInfo.remove(table);
+        this.noExtend.add(table);
         return this;
     }
 
@@ -383,7 +388,7 @@ public class Sugar {
      */
     private void prepare(Class<?> table) {
         if (null == table.getAnnotation(Transient.class)
-                && null != table.getAnnotation(TRANSIENT.class)
+                && null == table.getAnnotation(TRANSIENT.class)
                 && !this.deleted.contains(table)) {
             prepare.put(table, new Table(this, table));
         } else {
@@ -460,7 +465,7 @@ public class Sugar {
             String clazzName = clazz.getName();
             String packageName = clazzName
                     .substring(0, clazzName.lastIndexOf("."));
-            prepareAll(packageName);
+            this.prepareAll(packageName);
         }
         return this;
     }
@@ -549,15 +554,17 @@ public class Sugar {
     }
 
     public Class parent(Class table) {
-        if (!this.extendInfo.containsKey(table)) {
+        if (!this.extend || this.noExtend.contains(table)) {
             return null;
         }
         Class parent = this.extendInfo.get(table);
         if (null == parent) {
-            return table.getSuperclass();
-        } else {
-            return parent;
+            parent = table.getSuperclass();
         }
+        if (parent == Object.class) {
+            return null;
+        }
+        return parent;
     }
 
     public boolean isPrimary() {

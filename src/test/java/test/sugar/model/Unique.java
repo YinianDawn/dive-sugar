@@ -48,7 +48,7 @@ public class Unique {
     @DEFAULT("CURRENT_TIMESTAMP")
     private Date created;
 
-    @ON_UPDATE("CURRENT_TIMESTAMP")
+    @ON_UPDATE
     private Date updated;
 
 
