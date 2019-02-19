@@ -21,6 +21,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -695,7 +697,45 @@ public abstract class BaseColumn extends Base {
                 '}';
     }
 
-    // ===================== tools =====================
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BaseColumn that = (BaseColumn) o;
+        return Objects.equals(sugar, that.sugar) &&
+                Objects.equals(field, that.field) &&
+                Objects.equals(model, that.model) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(type, that.type) &&
+                Arrays.equals(values, that.values) &&
+                Objects.equals(length, that.length) &&
+                Objects.equals(decimals, that.decimals) &&
+                Objects.equals(fsp, that.fsp) &&
+                Objects.equals(unsigned, that.unsigned) &&
+                Objects.equals(zerofill, that.zerofill) &&
+                Objects.equals(binary, that.binary) &&
+                Objects.equals(charset, that.charset) &&
+                Objects.equals(collate, that.collate) &&
+                Objects.equals(notNull, that.notNull) &&
+                Objects.equals(nullable, that.nullable) &&
+                Objects.equals(defaultValue, that.defaultValue) &&
+                Objects.equals(onUpdate, that.onUpdate) &&
+                Objects.equals(autoIncrement, that.autoIncrement) &&
+                Objects.equals(primary, that.primary) &&
+                Objects.equals(comment, that.comment) &&
+                Objects.equals(keys, that.keys) &&
+                Objects.equals(from, that.from) &&
+                Objects.equals(place, that.place);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(sugar, field, model, name, type, length, decimals, fsp, unsigned, zerofill, binary, charset, collate, notNull, nullable, defaultValue, onUpdate, autoIncrement, primary, comment, keys, from, place);
+        result = 31 * result + Arrays.hashCode(values);
+        return result;
+    }
+
+// ===================== tools =====================
 
     /**
      * 是否忽略

@@ -21,7 +21,7 @@ public @interface EXTEND {
      *
      * @return 继承类
      */
-    Class[] value() default {};
+    Class value() default Object.class;
 
     /**
      * 排出的列名

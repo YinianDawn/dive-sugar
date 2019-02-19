@@ -110,7 +110,7 @@ public class Sugar {
     /**
      * 继承的类信息
      */
-    private HashMap<Class, Class[]> extendInfo = new HashMap<>();
+    private HashMap<Class, Class> extendInfo = new HashMap<>();
 
     /**
      * 若是新建表，需要插入的对象
@@ -345,11 +345,11 @@ public class Sugar {
     /**
      * 某一表的继承
      * @param table 表
-     * @param parents 继承属性
+     * @param parent 继承属性
      * @return 本实例
      */
-    public Sugar extend(Class table, Class... parents) {
-        this.extendInfo.put(table, parents);
+    public Sugar extend(Class table, Class parent) {
+        this.extendInfo.put(table, parent);
         return this;
     }
 
@@ -359,7 +359,8 @@ public class Sugar {
      * @return 本实例
      */
     public Sugar noExtend(Class table) {
-        return extend(table);
+        this.extendInfo.remove(table);
+        return this;
     }
 
     /**
@@ -384,7 +385,7 @@ public class Sugar {
         if (null == table.getAnnotation(Transient.class)
                 && null != table.getAnnotation(TRANSIENT.class)
                 && !this.deleted.contains(table)) {
-            prepare.put(table, new Table(table));
+            prepare.put(table, new Table(this, table));
         } else {
             this.log.error("class is transient or deleted: {}", table);
         }
@@ -521,5 +522,49 @@ public class Sugar {
 
     public boolean isCamel() {
         return camel;
+    }
+
+    public boolean isAnnotate() {
+        return annotate;
+    }
+
+    public String getAuto() {
+        return auto;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public String getEngine() {
+        return engine;
+    }
+
+    public String getCharset() {
+        return charset;
+    }
+
+    public String getCollate() {
+        return collate;
+    }
+
+    public Class parent(Class table) {
+        if (!this.extendInfo.containsKey(table)) {
+            return null;
+        }
+        Class parent = this.extendInfo.get(table);
+        if (null == parent) {
+            return table.getSuperclass();
+        } else {
+            return parent;
+        }
+    }
+
+    public boolean isPrimary() {
+        return primary;
+    }
+
+    public boolean isIncrement() {
+        return increment;
     }
 }
