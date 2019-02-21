@@ -12,6 +12,9 @@ import java.util.function.Function;
  */
 public class SimpleLogger {
 
+    /**
+     * 包装日志方法
+     */
     private static final Function<String, String> PACK1 =
             s -> {
                 StackTraceElement e = new Throwable().getStackTrace()[3];
@@ -40,7 +43,7 @@ public class SimpleLogger {
     /**
      * 异常日志输出
      */
-    private Consumer<String> error = System.out::println;
+    private Consumer<String> error = System.err::println;
 
     /**
      * 包装
@@ -62,6 +65,10 @@ public class SimpleLogger {
         this.log = log;
     }
 
+    /**
+     * 设置普通信息输出
+     * @param info 普通信息输出方法
+     */
     void info(Consumer<String> info) {
         if (null != info) {
             this.info = info;
@@ -69,6 +76,10 @@ public class SimpleLogger {
         }
     }
 
+    /**
+     * 设置错误信息输出
+     * @param error 错误信息输出方法
+     */
     void error(Consumer<String> error) {
         if (null != error) {
             this.error = error;
@@ -76,6 +87,12 @@ public class SimpleLogger {
         }
     }
 
+    /**
+     * 统一日志输出方法
+     * @param info 是否普通输出
+     * @param format 格式
+     * @param param 替换参数
+     */
     void log(boolean info, String format, Object... param) {
         if (!this.log) {
             return;
@@ -97,10 +114,20 @@ public class SimpleLogger {
         }
     }
 
+    /**
+     * 普通信息输出
+     * @param message 信息
+     * @param param 参数
+     */
     public void info(String message, Object... param) {
         this.log(true, message, param);
     }
 
+    /**
+     * 错误信息输出
+     * @param message 信息
+     * @param param 参数
+     */
     public void error(String message, Object... param) {
         this.log(false, message, param);
     }
