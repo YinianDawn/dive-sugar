@@ -1,7 +1,7 @@
 package dive.sugar.model.type.string;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 
@@ -14,7 +14,7 @@ public class Char extends BaseCharColumn {
         lengthMax = 255;
     }
 
-    public Char(Field field, Sugar builder, BaseColumn model) {
+    public Char(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 
@@ -30,7 +30,7 @@ public class Char extends BaseCharColumn {
     }
 
     @Override
-    public boolean same(BaseColumn s) {
+    public boolean same(Column s) {
         if (!exist(s)
                 || !name.equals(s.name)
                 || !type.equals(s.type)) {

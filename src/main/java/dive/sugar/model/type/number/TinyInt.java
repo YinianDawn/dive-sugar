@@ -2,7 +2,7 @@ package dive.sugar.model.type.number;
 
 import dive.sugar.Sugar;
 import dive.sugar.annotate.type.BOOLEAN;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 
@@ -24,7 +24,7 @@ public class TinyInt extends BaseIntegerColumn {
 
     private boolean bool = false;
 
-    public TinyInt(Field field, Sugar builder, BaseColumn model) {
+    public TinyInt(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 

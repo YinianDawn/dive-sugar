@@ -1,7 +1,7 @@
 package dive.sugar.model.type.string;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 
@@ -12,7 +12,7 @@ abstract class BaseBlobColumn extends BaseBinaryColumn {
 
     static long lengthMax;
 
-    BaseBlobColumn(Field field, Sugar builder, BaseColumn model) {
+    BaseBlobColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 
@@ -65,7 +65,7 @@ abstract class BaseBlobColumn extends BaseBinaryColumn {
     }
 
     @Override
-    public boolean same(BaseColumn s) {
+    public boolean same(Column s) {
         if (!exist(s)
                 || !name.equals(s.name)
                 || !type.equals(s.type)) {

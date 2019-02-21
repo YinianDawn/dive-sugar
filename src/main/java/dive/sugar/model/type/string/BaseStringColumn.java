@@ -1,7 +1,7 @@
 package dive.sugar.model.type.string;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 import java.util.function.Consumer;
@@ -9,11 +9,11 @@ import java.util.function.Consumer;
 /**
  * @author dawn
  */
-public abstract class BaseStringColumn extends BaseColumn {
+public abstract class BaseStringColumn extends Column {
 
     static int lengthMax;
 
-    BaseStringColumn(Field field, Sugar builder, BaseColumn model) {
+    BaseStringColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 

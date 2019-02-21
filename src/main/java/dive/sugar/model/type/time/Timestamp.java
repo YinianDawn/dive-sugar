@@ -1,7 +1,7 @@
 package dive.sugar.model.type.time;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 import java.text.ParseException;
@@ -29,7 +29,7 @@ public class Timestamp extends BaseTimeColumn {
         }
     }
 
-    public Timestamp(Field field, Sugar builder, BaseColumn model) {
+    public Timestamp(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 

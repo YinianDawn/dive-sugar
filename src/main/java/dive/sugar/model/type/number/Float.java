@@ -1,7 +1,7 @@
 package dive.sugar.model.type.number;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 
@@ -17,7 +17,7 @@ public class Float extends BaseFloatColumn {
         decimalMax = 7;
     }
 
-    public Float(Field field, Sugar builder, BaseColumn model) {
+    public Float(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 

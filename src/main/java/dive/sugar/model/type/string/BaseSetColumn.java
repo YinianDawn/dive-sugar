@@ -1,7 +1,7 @@
 package dive.sugar.model.type.string;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 
@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  */
 public abstract class BaseSetColumn extends BaseTextColumn {
 
-    BaseSetColumn(Field field, Sugar builder, BaseColumn model) {
+    BaseSetColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 
@@ -67,7 +67,7 @@ public abstract class BaseSetColumn extends BaseTextColumn {
     }
 
     @Override
-    public boolean same(BaseColumn s) {
+    public boolean same(Column s) {
         if (!exist(s)
                 || !name.equals(s.name)
                 || !type.equals(s.type)) {

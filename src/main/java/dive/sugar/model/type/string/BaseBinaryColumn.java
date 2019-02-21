@@ -1,7 +1,7 @@
 package dive.sugar.model.type.string;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 
@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  */
 public abstract class BaseBinaryColumn extends BaseStringColumn {
 
-    BaseBinaryColumn(Field field, Sugar builder, BaseColumn model) {
+    BaseBinaryColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 

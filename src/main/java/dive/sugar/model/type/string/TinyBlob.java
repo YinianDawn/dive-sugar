@@ -1,7 +1,7 @@
 package dive.sugar.model.type.string;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 
@@ -14,7 +14,7 @@ public class TinyBlob extends BaseBlobColumn {
         lengthMax = 255;
     }
 
-    public TinyBlob(Field field, Sugar builder, BaseColumn model) {
+    public TinyBlob(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 

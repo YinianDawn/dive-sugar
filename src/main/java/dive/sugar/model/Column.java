@@ -8,7 +8,6 @@ import dive.sugar.annotate.index.UNIQUE;
 import dive.sugar.annotate.prop.BINARY;
 import dive.sugar.annotate.prop.*;
 import dive.sugar.annotate.type.*;
-import dive.sugar.model.type.ModelColumn;
 import dive.sugar.model.type.number.Double;
 import dive.sugar.model.type.number.Float;
 import dive.sugar.model.type.number.*;
@@ -24,12 +23,14 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 
 /**
  * 基本属性类型
  * @author dawn
  */
-public abstract class BaseColumn extends Base {
+public class Column extends Base {
+
     /**
      * 配置
      */
@@ -41,7 +42,7 @@ public abstract class BaseColumn extends Base {
     /**
      * 模板
      */
-    protected BaseColumn model;
+    protected Column model;
 
     /**
      * 列名
@@ -107,7 +108,7 @@ public abstract class BaseColumn extends Base {
     /**
      * 自增
      */
-    public Boolean autoIncrement;
+    public Boolean increment;
     /**
      * 是否主键
      */
@@ -131,9 +132,9 @@ public abstract class BaseColumn extends Base {
      */
     public String place;
 
-    protected BaseColumn() {}
+    protected Column() {}
 
-    public BaseColumn(Field field, Sugar sugar, BaseColumn model) {
+    public Column(Field field, Sugar sugar, Column model) {
         this.field = field;
         this.sugar = sugar;
         this.model = model;
@@ -174,7 +175,7 @@ public abstract class BaseColumn extends Base {
         if (!this.initOnUpdate()) {
             return;
         }
-        this.initAutoIncrement();
+        this.initIncrement();
 
         this.initComment();
 
@@ -209,7 +210,7 @@ public abstract class BaseColumn extends Base {
         return true;
     }
 
-    protected void initType() {
+    protected final void initType() {
         this.type = this.getClass().getSimpleName().toUpperCase();
     }
 
@@ -246,7 +247,10 @@ public abstract class BaseColumn extends Base {
      * @param from 长度来源
      * @return 长度是否正确
      */
-    protected abstract boolean check(Integer length, String from);
+    protected boolean check(Integer length,
+                            String from) {
+        return false;
+    }
 
     protected boolean initDecimals() {
         String from = null;
@@ -286,9 +290,11 @@ public abstract class BaseColumn extends Base {
      * @param consumer 结果赋值
      * @return 精度是否正确
      */
-    protected abstract boolean check(Integer decimal, String from,
-                                     Integer precision, Integer scale,
-                                     Consumer<Integer> consumer);
+    protected boolean check(Integer decimal, String from,
+                            Integer precision, Integer scale,
+                            Consumer<Integer> consumer) {
+        return false;
+    }
 
     protected boolean initFSP() {
         String from = null;
@@ -420,7 +426,10 @@ public abstract class BaseColumn extends Base {
      * @param from 默认值来源
      * @return 默认值是否正确
      */
-    protected abstract boolean check(String defaultValue, String from);
+    protected boolean check(String defaultValue,
+                            String from) {
+        return false;
+    }
 
     private void initPrimary() {
         // from PRIMARY
@@ -464,17 +473,18 @@ public abstract class BaseColumn extends Base {
 
     protected boolean initOnUpdate() { return true; }
 
-    protected void initAutoIncrement() {
+    protected void initIncrement() {
         // from AUTO_INCREMENT
         AUTO_INCREMENT autoIncrementAnnotate =
                 field.getAnnotation(AUTO_INCREMENT.class);
         if (exist(autoIncrementAnnotate)) {
-            autoIncrement = true;
+            this.increment = true;
         }
 
         // from model
-        if (!exist(this.autoIncrement) && exist(this.model) && exist(this.model.autoIncrement)) {
-            this.autoIncrement = this.model.autoIncrement;
+        if (!exist(this.increment) && exist(this.model)
+                && exist(this.model.increment)) {
+            this.increment = this.model.increment;
         }
     }
 
@@ -499,11 +509,190 @@ public abstract class BaseColumn extends Base {
         this.keys.addAll(Key.build(uniques, name));
     }
 
+    public Column(String definition) {
+        if (!useful(definition)) {
+            return;
+        }
+        String d = definition.trim();
+        if (Pattern.matches("^(PRIMARY\\s|UNIQUE\\s|)KEY.*", d)
+                || 0 == d.length() || !d.startsWith("`")) {
+            log.error("wrong column definition: {}", definition);
+            return;
+        }
+        d = substring(d, 1);
+        this.name = d.substring(0, d.indexOf("`"));
+        d = substring(d, d.indexOf("`") + 2);
+        String typeName = substring(d, 0, d.indexOf(" "));
+        String brackets = pattern(typeName, "\\(", "\\)");
+        if (useful(brackets)) {
+            this.type = typeName.substring(0, typeName.indexOf("(")).toUpperCase();
+            if (!this.parseBrackets(brackets)) {
+                return;
+            }
+        } else {
+            this.type = typeName.toUpperCase();
+        }
+        d = substring(d, d.indexOf(" ") + 1);
+        if (d.startsWith("unsigned")) {
+            this.unsigned = true;
+            d = substring(d,9);
+        }
+        if (d.startsWith("zerofill")) {
+            this.zerofill = true;
+            d = substring(d, 9);
+        }
+        if (d.startsWith("binary")) {
+            this.binary = true;
+            d = substring(d, 7);
+        }
+        if (d.startsWith("CHARACTER SET")) {
+            d = substring(d, 14);
+            this.charset =  substring(d, 0, d.indexOf(" "));
+            d = substring(d, d.indexOf(" ") + 1);
+        }
+        if (d.startsWith("COLLATE")) {
+            d = substring(d, 8);
+            this.collate =  substring(d, 0, d.indexOf(" "));
+            d = substring(d, d.indexOf(" ") + 1);
+        }
+        if (d.startsWith("NOT NULL")) {
+            this.notNull = true;
+            d = substring(d, 9);
+        }
+        if (d.startsWith("DEFAULT NULL")) {
+            this.nullable = true;
+            d = substring(d, 13);
+        }
+        if (d.startsWith("DEFAULT")) {
+            d = substring(d, 8);
+            if (d.startsWith("'")) {
+                d = substring(d, 1);
+                this.defaultValue =  substring(d, 0, d.indexOf("'"));
+                d = substring(d, d.indexOf("'") + 2);
+            } else {
+                this.defaultValue =  substring(d, 0, d.indexOf(" "));
+                d = substring(d, d.indexOf(" ") + 1);
+            }
+        }
+        if (d.startsWith("ON UPDATE")) {
+            d = substring(d, 10);
+            int index = d.indexOf(" ");
+            if (-1 == index) {
+                this.onUpdate = d;
+                d = "";
+            } else {
+                this.onUpdate = d.substring(0, index);
+                d = substring(d, index + 1);
+            }
+        }
+        if (d.startsWith("AUTO_INCREMENT")) {
+            this.increment = true;
+            d = substring(d, 15);
+        }
+        if (d.startsWith("COMMENT")) {
+            this.comment =  substring(d,
+                    d.indexOf("'") + 1, d.lastIndexOf("'"));
+        }
+
+        this.valid = true;
+    }
+
+    /**
+     * 解析定义里括号内的内容
+     * @param brackets 括号内容
+     * @return 是否解析完成
+     */
+    private boolean parseBrackets(String brackets) {
+        try {
+            switch (this.type) {
+                case "BOOLEAN" : break;
+                case "BIT" :
+                case "TINYINT" :
+                case "SMALLINT" :
+                case "MEDIUMINT" :
+                case "INT" :
+                case "INTEGER" :
+                case "BIGINT" :
+                    this.length = Integer.parseInt(brackets);
+                    break;
+                case "REAL" :
+                case "DOUBLE" :
+                case "FLOAT" :
+                case "DECIMAL" :
+                case "NUMERIC" :
+                    String[] s = brackets.split(",");
+                    this.length = Integer.parseInt(s[0]);
+                    if (1 < s.length) {
+                        this.decimals = Integer.parseInt(s[1]);
+                    }
+                    break;
+                case "DATE" : break;
+                case "TIME" :
+                case "TIMESTAMP" :
+                case "DATETIME" :
+                    this.fsp = Integer.parseInt(brackets);
+                    break;
+                case "YEAR" :
+                    this.length = Integer.parseInt(brackets);
+                    break;
+                case "CHAR" :
+                case "VARCHAR" :
+                case "BINARY" :
+                case "VARBINARY" :
+                    this.length = Integer.parseInt(brackets);
+                    break;
+                case "TINYBLOB" :
+                case "BLOB" :
+                case "MEDIUMBLOB" :
+                case "LONGBLOB" : break;
+                case "TINYTEXT" :
+                case "TEXT" :
+                case "MEDIUMTEXT" :
+                case "LONGTEXT" : break;
+                case "ENUM" :
+                case "SET" :
+                    this.values = brackets.replace("'", "")
+                        .split(",");
+                    break;
+                default:
+                    log.error("can not recognise type {}: {}",
+                            type, brackets);
+                    return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("analysis type {} failed: {}",
+                    type, brackets);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * 获取该列定义
      * @return 定义
      */
-    public abstract String definition();
+    public String definition() {
+        return null;
+    }
+
+    /**
+     * 初始化值 变 字符串
+     * @param value 初始化值
+     * @return 字符串值
+     */
+    public String value(Object value) {
+        return null;
+    }
+
+    /**
+     * 是否相等
+     * @param s 另一个列定义
+     * @return 是否相等
+     */
+    public boolean same(Column s) {
+        return false;
+    }
 
     String getName() {
         return this.name;
@@ -522,31 +711,89 @@ public abstract class BaseColumn extends Base {
         this.notNull = true;
     }
 
-    void setAutoIncrement() {
+    void setIncrement() {
         if (this instanceof BaseIntegerColumn) {
-            this.autoIncrement = true;
+            this.increment = true;
         } else {
             log.error("{} can not be auto increment", type);
         }
     }
 
-    /**
-     * 初始化值 变 字符串
-     * @param value 初始化值
-     * @return 字符串值
-     */
-    public abstract String value(Object value);
-
     String getPlace() {
         return this.place;
     }
 
-    /**
-     * 是否相等
-     * @param s 另一个列定义
-     * @return 是否相等
-     */
-    public abstract boolean same(BaseColumn s);
+    @Override
+    public String toString() {
+        return "Column{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", values=" + java.util.Arrays.toString(values) +
+                ", length=" + length +
+                ", decimals=" + decimals +
+                ", fsp=" + fsp +
+                ", unsigned=" + unsigned +
+                ", zerofill=" + zerofill +
+                ", binary=" + binary +
+                ", charset='" + charset + '\'' +
+                ", collate='" + collate + '\'' +
+                ", notNull=" + notNull +
+                ", nullable=" + nullable +
+                ", defaultValue='" + defaultValue + '\'' +
+                ", onUpdate='" + onUpdate + '\'' +
+                ", increment=" + increment +
+                ", primary=" + primary +
+                ", comment='" + comment + '\'' +
+                ", place='" + place + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Column that = (Column) o;
+        return Objects.equals(sugar, that.sugar) &&
+                Objects.equals(field, that.field) &&
+                Objects.equals(model, that.model) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(type, that.type) &&
+                Arrays.equals(values, that.values) &&
+                Objects.equals(length, that.length) &&
+                Objects.equals(decimals, that.decimals) &&
+                Objects.equals(fsp, that.fsp) &&
+                Objects.equals(unsigned, that.unsigned) &&
+                Objects.equals(zerofill, that.zerofill) &&
+                Objects.equals(binary, that.binary) &&
+                Objects.equals(charset, that.charset) &&
+                Objects.equals(collate, that.collate) &&
+                Objects.equals(notNull, that.notNull) &&
+                Objects.equals(nullable, that.nullable) &&
+                Objects.equals(defaultValue, that.defaultValue) &&
+                Objects.equals(onUpdate, that.onUpdate) &&
+                Objects.equals(increment, that.increment) &&
+                Objects.equals(primary, that.primary) &&
+                Objects.equals(comment, that.comment) &&
+                Objects.equals(keys, that.keys) &&
+                Objects.equals(from, that.from) &&
+                Objects.equals(place, that.place);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(sugar, field, model,
+                name, type,
+                length, decimals, fsp,
+                unsigned, zerofill, binary, charset, collate,
+                notNull, nullable, defaultValue, onUpdate,
+                increment, primary, comment, keys, from, place);
+        result = 31 * result + Arrays.hashCode(values);
+        return result;
+    }
 
     public static class Builder {
 
@@ -564,7 +811,7 @@ public abstract class BaseColumn extends Base {
         Boolean nullable;
         String defaultValue;
         String onUpdate;
-        Boolean autoIncrement;
+        Boolean increment;
         Boolean primary;
         String comment;
 
@@ -633,8 +880,8 @@ public abstract class BaseColumn extends Base {
             return this;
         }
 
-        public Builder autoIncrement(Boolean autoIncrement) {
-            this.autoIncrement = autoIncrement;
+        public Builder increment(Boolean increment) {
+            this.increment = increment;
             return this;
         }
 
@@ -648,8 +895,8 @@ public abstract class BaseColumn extends Base {
             return this;
         }
 
-        public BaseColumn build() {
-            BaseColumn c = new ModelColumn();
+        public Column build() {
+            Column c = new Column();
 
             c.values = this.values;
             c.length = this.length;
@@ -665,77 +912,14 @@ public abstract class BaseColumn extends Base {
             c.nullable = this.nullable;
             c.defaultValue = this.defaultValue;
             c.onUpdate = this.onUpdate;
-            c.autoIncrement = this.autoIncrement;
+            c.increment = this.increment;
             c.primary = this.primary;
             c.comment = this.comment;
             return c;
         }
     }
 
-    @Override
-    public String toString() {
-        return "Column{" +
-                "name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", values=" + java.util.Arrays.toString(values) +
-                ", length=" + length +
-                ", decimals=" + decimals +
-                ", fsp=" + fsp +
-                ", unsigned=" + unsigned +
-                ", zerofill=" + zerofill +
-                ", binary=" + binary +
-                ", charset='" + charset + '\'' +
-                ", collate='" + collate + '\'' +
-                ", notNull=" + notNull +
-                ", nullable=" + nullable +
-                ", defaultValue='" + defaultValue + '\'' +
-                ", onUpdate='" + onUpdate + '\'' +
-                ", autoIncrement=" + autoIncrement +
-                ", primary=" + primary +
-                ", comment='" + comment + '\'' +
-                ", place='" + place + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BaseColumn that = (BaseColumn) o;
-        return Objects.equals(sugar, that.sugar) &&
-                Objects.equals(field, that.field) &&
-                Objects.equals(model, that.model) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(type, that.type) &&
-                Arrays.equals(values, that.values) &&
-                Objects.equals(length, that.length) &&
-                Objects.equals(decimals, that.decimals) &&
-                Objects.equals(fsp, that.fsp) &&
-                Objects.equals(unsigned, that.unsigned) &&
-                Objects.equals(zerofill, that.zerofill) &&
-                Objects.equals(binary, that.binary) &&
-                Objects.equals(charset, that.charset) &&
-                Objects.equals(collate, that.collate) &&
-                Objects.equals(notNull, that.notNull) &&
-                Objects.equals(nullable, that.nullable) &&
-                Objects.equals(defaultValue, that.defaultValue) &&
-                Objects.equals(onUpdate, that.onUpdate) &&
-                Objects.equals(autoIncrement, that.autoIncrement) &&
-                Objects.equals(primary, that.primary) &&
-                Objects.equals(comment, that.comment) &&
-                Objects.equals(keys, that.keys) &&
-                Objects.equals(from, that.from) &&
-                Objects.equals(place, that.place);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(sugar, field, model, name, type, length, decimals, fsp, unsigned, zerofill, binary, charset, collate, notNull, nullable, defaultValue, onUpdate, autoIncrement, primary, comment, keys, from, place);
-        result = 31 * result + Arrays.hashCode(values);
-        return result;
-    }
-
-// ===================== tools =====================
+    // ===================== tools =====================
 
     /**
      * 是否忽略
@@ -754,7 +938,8 @@ public abstract class BaseColumn extends Base {
      * @return 数据类型
      */
     @SuppressWarnings("unchecked")
-    private static String getType(Field field, Class<?>... annotations) {
+    private static String getType(Field field,
+                                  Class<?>... annotations) {
         for (Class<?> annotation : annotations) {
             if (field.isAnnotationPresent((Class<Annotation>)annotation)) {
                 return annotation.getSimpleName();
@@ -821,7 +1006,8 @@ public abstract class BaseColumn extends Base {
     /**
      * 内置根据Java类型确定数据类型
      */
-    private static final java.util.Map<Class, String> CLASS_MAP = new java.util.HashMap<>();
+    private static final java.util.Map<Class, String> CLASS_MAP
+            = new java.util.HashMap<>();
     static {
         CLASS_MAP.put(long.class, "BIGINT");
         CLASS_MAP.put(Long.class, "BIGINT");
@@ -893,7 +1079,8 @@ public abstract class BaseColumn extends Base {
      * @param model 模板
      * @return 列实例
      */
-    private static BaseColumn getColumn(String type, Field field, Sugar sugar, BaseColumn model) {
+    private static Column getColumn(String type, Field field,
+                                    Sugar sugar, Column model) {
         try {
             switch (type) {
                 case "BIT": return new Bit(field, sugar, model);
@@ -950,12 +1137,12 @@ public abstract class BaseColumn extends Base {
      * @param sugar 配置
      * @return 列对象
      */
-    static BaseColumn build(Field field, Sugar sugar) {
+    static Column build(Field field, Sugar sugar) {
         if (isTransient(field)) {
             return null;
         }
 
-        BaseColumn model = null;
+        Column model = null;
         Class clazz = field.getType();
 
         // 先确定数据类型
@@ -975,11 +1162,11 @@ public abstract class BaseColumn extends Base {
         }
 
         // 尽量确定配置列模型
-        BaseColumn model2 = sugar.getOmitByType().get(type);
+        Column model2 = sugar.getOmitByType().get(type);
         if (exist(model2)) {
             model = model2;
         }
-        BaseColumn column = getColumn(type, field, sugar, model);
+        Column column = getColumn(type, field, sugar, model);
         if (exist(column)) {
             return column;
         }

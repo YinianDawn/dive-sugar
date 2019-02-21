@@ -1,7 +1,7 @@
 package dive.sugar.model.type.string;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 
@@ -14,7 +14,7 @@ public class MediumBlob extends BaseBlobColumn {
         lengthMax = 16777215;
     }
 
-    public MediumBlob(Field field, Sugar builder, BaseColumn model) {
+    public MediumBlob(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 

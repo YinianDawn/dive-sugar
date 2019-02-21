@@ -1,7 +1,7 @@
 package dive.sugar.model.type.number;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -12,12 +12,12 @@ import java.util.function.Consumer;
  *
  * @author dawn
  */
-public abstract class BaseDecimalColumn extends BaseColumn {
+public abstract class BaseDecimalColumn extends Column {
 
     int lengthMax;
     int decimalMax;
 
-    BaseDecimalColumn(Field field, Sugar builder, BaseColumn model) {
+    BaseDecimalColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 

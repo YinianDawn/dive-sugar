@@ -1,7 +1,7 @@
 package dive.sugar.model.type.number;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 import java.util.function.Consumer;
@@ -11,7 +11,7 @@ import java.util.function.Consumer;
  *
  * @author dawn
  */
-public abstract class BaseIntegerColumn extends BaseColumn {
+public abstract class BaseIntegerColumn extends Column {
 
     long unsignedMin;
     long unsignedMax;
@@ -19,7 +19,7 @@ public abstract class BaseIntegerColumn extends BaseColumn {
     long signedMax;
     int defaultLength;
 
-    BaseIntegerColumn(Field field, Sugar builder, BaseColumn model) {
+    BaseIntegerColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 
@@ -140,7 +140,7 @@ public abstract class BaseIntegerColumn extends BaseColumn {
     }
 
     @Override
-    public boolean same(BaseColumn s) {
+    public boolean same(Column s) {
         if (!exist(s)
                 || !name.equals(s.name)
                 || !type.equals(s.type)) {

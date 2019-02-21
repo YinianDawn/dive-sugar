@@ -1,7 +1,7 @@
 package dive.sugar.model.type.time;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 import java.text.ParseException;
@@ -13,13 +13,13 @@ import java.util.function.Consumer;
  *
  * @author dawn
  */
-abstract class BaseDateColumn extends BaseColumn {
+abstract class BaseDateColumn extends Column {
 
     static SimpleDateFormat SDF;
     static java.util.Date min;
     static java.util.Date max;
 
-    BaseDateColumn(Field field, Sugar builder, BaseColumn model) {
+    BaseDateColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 
@@ -123,7 +123,7 @@ abstract class BaseDateColumn extends BaseColumn {
     }
 
     @Override
-    public boolean same(BaseColumn s) {
+    public boolean same(Column s) {
         if (!exist(s)) return false;
         if (!name.equals(s.name)) return false;
         if (!type.equals(s.type)) return false;

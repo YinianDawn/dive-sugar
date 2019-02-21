@@ -2,7 +2,7 @@ package dive.sugar;
 
 import dive.sugar.annotate.TRANSIENT;
 import dive.sugar.model.Base;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 import dive.sugar.model.Table;
 
 import javax.persistence.Transient;
@@ -96,11 +96,11 @@ public class Sugar {
     /**
      * 某一类型的默认列类型
      */
-    private Map<Class, BaseColumn> omitByClass = new HashMap<>();
+    private Map<Class, Column> omitByClass = new HashMap<>();
     /**
      * 某一数据类型的默认列类型
      */
-    private Map<String, BaseColumn> omitByType = new HashMap<>();
+    private Map<String, Column> omitByType = new HashMap<>();
 
     /**
      * 忽略不用建表的类
@@ -321,7 +321,7 @@ public class Sugar {
      * @param column 列类型
      * @return 本实例
      */
-    public Sugar omit(Class type, BaseColumn column) {
+    public Sugar omit(Class type, Column column) {
         this.omitByClass.put(type, column);
         return this;
     }
@@ -332,7 +332,7 @@ public class Sugar {
      * @param column 列类型
      * @return 本实例
      */
-    public Sugar omit(String type, BaseColumn column) {
+    public Sugar omit(String type, Column column) {
         this.omitByType.put(type.toUpperCase(), column);
         return this;
     }
@@ -387,8 +387,8 @@ public class Sugar {
      * @param table 表
      */
     private void prepare(Class<?> table) {
-        if (null == table.getAnnotation(Transient.class)
-                && null == table.getAnnotation(TRANSIENT.class)
+        if (!table.isAnnotationPresent(Transient.class)
+                && !table.isAnnotationPresent(TRANSIENT.class)
                 && !this.deleted.contains(table)) {
             prepare.put(table, new Table(this, table));
         } else {
@@ -517,11 +517,11 @@ public class Sugar {
         this.log.info("--------  completed  --------");
     }
 
-    public Map<Class, BaseColumn> getOmitByClass() {
+    public Map<Class, Column> getOmitByClass() {
         return this.omitByClass;
     }
 
-    public Map<String, BaseColumn> getOmitByType() {
+    public Map<String, Column> getOmitByType() {
         return this.omitByType;
     }
 

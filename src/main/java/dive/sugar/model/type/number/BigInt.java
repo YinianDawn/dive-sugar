@@ -1,7 +1,7 @@
 package dive.sugar.model.type.number;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 import java.math.BigInteger;
@@ -25,7 +25,7 @@ public class BigInt extends BaseIntegerColumn {
         defaultLength = 20;
     }
 
-    public BigInt(Field field, Sugar builder, BaseColumn model) {
+    public BigInt(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 

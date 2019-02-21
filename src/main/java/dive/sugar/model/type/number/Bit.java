@@ -1,7 +1,7 @@
 package dive.sugar.model.type.number;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 import java.math.BigInteger;
@@ -10,9 +10,9 @@ import java.util.function.Consumer;
 /**
  * @author dawn
  */
-public class Bit extends BaseColumn {
+public class Bit extends Column {
 
-    public Bit(Field field, Sugar builder, BaseColumn model) {
+    public Bit(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 
@@ -144,7 +144,7 @@ public class Bit extends BaseColumn {
     }
 
     @Override
-    public boolean same(BaseColumn s) {
+    public boolean same(Column s) {
         if (!exist(s)) return false;
         if (!name.equals(s.name)) return false;
         if (!type.equals(s.type)) return false;

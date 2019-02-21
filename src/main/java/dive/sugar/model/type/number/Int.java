@@ -1,7 +1,7 @@
 package dive.sugar.model.type.number;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 
@@ -20,7 +20,7 @@ public class Int extends BaseIntegerColumn {
         defaultLength = 11;
     }
 
-    public Int(Field field, Sugar builder, BaseColumn model) {
+    public Int(Field field, Sugar builder, Column model) {
         super(field, builder, model);
         if (isTrue(unsigned)) {
             defaultLength = 10;

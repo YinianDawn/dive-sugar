@@ -1,7 +1,7 @@
 package dive.sugar.model.type.number;
 
 import dive.sugar.Sugar;
-import dive.sugar.model.BaseColumn;
+import dive.sugar.model.Column;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  */
 public abstract class BaseFloatColumn extends BaseDecimalColumn {
 
-    BaseFloatColumn(Field field, Sugar builder, BaseColumn model) {
+    BaseFloatColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
 
@@ -76,7 +76,7 @@ public abstract class BaseFloatColumn extends BaseDecimalColumn {
     }
 
     @Override
-    public boolean same(BaseColumn s) {
+    public boolean same(Column s) {
         if (!exist(s)
                 || !name.equals(s.name)
                 || !type.equals(s.type)) {

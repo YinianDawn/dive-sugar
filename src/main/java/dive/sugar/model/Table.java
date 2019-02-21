@@ -32,7 +32,7 @@ public class Table extends Base {
     private boolean recreate = false;
     private boolean create = false;
 
-    private List<BaseColumn> columns = new ArrayList<>();
+    private List<Column> columns = new ArrayList<>();
 
     private List<Key> keys = new ArrayList<>();
 
@@ -146,7 +146,7 @@ public class Table extends Base {
         }
 
         for (Field f : this.table.getDeclaredFields()) {
-            BaseColumn column = BaseColumn.build(f, this.sugar);
+            Column column = Column.build(f, this.sugar);
             if (exist(column) && column.isValid()) {
                 columns.add(column);
             }
@@ -158,7 +158,7 @@ public class Table extends Base {
             if (0 < p.columns.size()) {
                 Set<Integer> removed = new HashSet<>();
                 for (int i = 0; i < p.columns.size(); i++) {
-                    for (BaseColumn c : columns) {
+                    for (Column c : columns) {
                         if (p.columns.get(i).getName().equals(c.getName())) {
                             removed.add(i);
                             break;
@@ -169,7 +169,7 @@ public class Table extends Base {
                 OTTER:
                 for (int i = p.columns.size() - 1; 0 <= i; i--) {
                     String name = p.columns.get(i).name;
-                    for (BaseColumn c : columns) {
+                    for (Column c : columns) {
                         if (c.name.equals(name)) {
                             p.columns.remove(i);
                             continue OTTER;
@@ -188,7 +188,7 @@ public class Table extends Base {
         }
 
         Set<String> set = new HashSet<>();
-        for (BaseColumn c : columns) {
+        for (Column c : columns) {
             if (!set.contains(c.getName())) {
                 set.add(c.getName());
             } else {
@@ -203,8 +203,8 @@ public class Table extends Base {
             columns.get(i).setPlace("AFTER " + columns.get(i - 1).getName());
         }
 
-        List<BaseColumn> primaries = new ArrayList<>();
-        for (BaseColumn c : columns) {
+        List<Column> primaries = new ArrayList<>();
+        for (Column c : columns) {
             if (c.isPrimary()) {
                 primaries.add(c);
             }
@@ -225,7 +225,7 @@ public class Table extends Base {
             return;
         }
 
-        for (BaseColumn c : columns) {
+        for (Column c : columns) {
             if (exist(c.keys) && 0 <c.keys.size()) {
                 keys.addAll(c.keys);
             }
@@ -275,7 +275,7 @@ public class Table extends Base {
         String[] cs = tableDefinition.
                 substring(l + 1, r).trim().split(",\n\\s+");
         for (String definition : cs){
-            BaseColumn column = new ModelColumn(definition);
+            Column column = new ModelColumn(definition);
             if (column.isValid()) {
                 columns.add(column);
             }
@@ -297,7 +297,7 @@ public class Table extends Base {
             }
         }
         if (useful(primaryKeyName)) {
-            for (BaseColumn c : columns) {
+            for (Column c : columns) {
                 if (c.getName().equals(primaryKeyName)) {
                     c.setPrimary();
                 }
@@ -336,7 +336,7 @@ public class Table extends Base {
         if (existTable(stmt, name)) {
             log.info("table {}: is exist, checking...", name);
 
-            for (BaseColumn c : columns) {
+            for (Column c : columns) {
                 String from = c.from;
                 if (useful(from)) {
                     renameColumn(stmt, from, c.getName(), name);
@@ -358,8 +358,8 @@ public class Table extends Base {
                             "skip this checking", name);
                     continue;
                 }
-                BaseColumn d  = columns.get(i);
-                BaseColumn e = getColumnByName(d.getName(), exist.columns);
+                Column d  = columns.get(i);
+                Column e = getColumnByName(d.getName(), exist.columns);
                 if (exist(e)) {
                     if (!d.same(e)){
                         log.error("table {}: d --> {}", name, d);
@@ -399,7 +399,7 @@ public class Table extends Base {
             log.info("table {}: is not exist, creating...", name);
             StringBuilder sb = new StringBuilder();
             sb.append("CREATE TABLE `").append(name).append("`(\n");
-            for (BaseColumn c : columns) {
+            for (Column c : columns) {
                 sb.append("    ").append(c.definition()).append(",\n");
             }
             sb.deleteCharAt(sb.lastIndexOf(","));
@@ -532,8 +532,8 @@ public class Table extends Base {
                         initial.toString(), table.getName());
                 return;
             }
-            Map<BaseColumn, String> map = new HashMap<>();
-            for (BaseColumn c : columns) {
+            Map<Column, String> map = new HashMap<>();
+            for (Column c : columns) {
                 try {
                     Field f = s.getDeclaredField(c.field.getName());
                     f.setAccessible(true);
@@ -640,7 +640,7 @@ public class Table extends Base {
         }
     }
 
-    private static void changeColumn(Statement stmt, BaseColumn column,
+    private static void changeColumn(Statement stmt, Column column,
                                      String name) {
         String sql = "ALTER TABLE `" + name + "` CHANGE `" + column.getName()
                 + "` " + column.definition()
@@ -657,7 +657,7 @@ public class Table extends Base {
         }
     }
 
-    private static void addColumn(Statement stmt, BaseColumn column,
+    private static void addColumn(Statement stmt, Column column,
                                   String name)  {
         String sql = "ALTER TABLE `" + name + "` ADD "
                 + column.definition() + " " + column.getPlace();
@@ -681,8 +681,8 @@ public class Table extends Base {
         }
     }
 
-    private static BaseColumn getColumnByName(String name, List<BaseColumn> columns) {
-        for (BaseColumn c : columns) {
+    private static Column getColumnByName(String name, List<Column> columns) {
+        for (Column c : columns) {
             if (c.getName().equals(name)) {
                 return c;
             }

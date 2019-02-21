@@ -12,6 +12,11 @@ import java.util.regex.Pattern;
  */
 public class Base {
 
+    private static final String UNDERLINE = "_";
+
+    /**
+     * 日志
+     */
     public static SimpleLogger log;
 
     /**
@@ -56,7 +61,7 @@ public class Base {
             }
         }
         name = sb.toString();
-        if (name.startsWith("_")) {
+        if (name.startsWith(UNDERLINE)) {
             name = name.substring(1);
         }
         return name;
@@ -115,7 +120,7 @@ public class Base {
      * @param c2 新注释
      * @return 是否相同
      */
-    protected static boolean checkComment(String c1, String c2) {
+    static boolean checkComment(String c1, String c2) {
         if (useful(c1) && !useful(c2)) {
             return false;
         }
