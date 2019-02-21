@@ -18,7 +18,4 @@ public class MediumBlob extends BaseBlobColumn {
         super(field, builder, model);
     }
 
-    @Override
-    protected void initType() { this.type = "MEDIUMBLOB"; }
-
 }

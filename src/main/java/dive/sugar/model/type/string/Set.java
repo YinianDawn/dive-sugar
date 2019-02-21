@@ -17,9 +17,6 @@ public class Set extends BaseSetColumn {
     }
 
     @Override
-    protected void initType() { this.type = "SET";  }
-
-    @Override
     protected boolean initValues() {
         // from SET
         SET s = field.getAnnotation(SET.class);

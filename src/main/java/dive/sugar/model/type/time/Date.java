@@ -34,7 +34,4 @@ public class Date extends BaseDateColumn {
         super(field, builder, model);
     }
 
-    @Override
-    protected void initType() { this.type = "DATE"; }
-
 }

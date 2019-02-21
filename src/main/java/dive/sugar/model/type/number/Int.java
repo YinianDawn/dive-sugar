@@ -27,7 +27,4 @@ public class Int extends BaseIntegerColumn {
         }
     }
 
-    @Override
-    protected void initType() { this.type = "INT"; }
-
 }

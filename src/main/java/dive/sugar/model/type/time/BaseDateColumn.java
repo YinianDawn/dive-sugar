@@ -82,7 +82,7 @@ abstract class BaseDateColumn extends Column {
     }
 
     @Override
-    protected void initAutoIncrement() { }
+    protected void initIncrement() { }
 
     @Override
     public String definition() {

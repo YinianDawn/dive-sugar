@@ -17,9 +17,6 @@ public class Enum extends BaseSetColumn {
     }
 
     @Override
-    protected void initType() { this.type = "ENUM"; }
-
-    @Override
     protected boolean initValues() {
         // from Enum
         ENUM e = field.getAnnotation(ENUM.class);

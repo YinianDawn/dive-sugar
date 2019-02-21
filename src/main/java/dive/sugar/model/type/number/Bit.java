@@ -17,11 +17,6 @@ public class Bit extends Column {
     }
 
     @Override
-    protected void initType() {
-        this.type = "BIT";
-    }
-
-    @Override
     protected boolean check(Integer length, String from) {
         boolean result = 1 <= length && length <= 64;
         if (result) {
@@ -122,7 +117,7 @@ public class Bit extends Column {
             }
         }
 
-        if (isTrue(primary) && isTrue(autoIncrement))
+        if (isTrue(primary) && isTrue(increment))
             sb.append(" AUTO_INCREMENT");
 
         if (isTrue(primary)) sb.append(" PRIMARY KEY");
@@ -145,9 +140,9 @@ public class Bit extends Column {
 
     @Override
     public boolean same(Column s) {
-        if (!exist(s)) return false;
-        if (!name.equals(s.name)) return false;
-        if (!type.equals(s.type)) return false;
+        if (!exist(s) || !name.equals(s.name) || !type.equals(s.type)) {
+            return false;
+        }
 
         Integer length = this.length;
         if (!exist(length)) {

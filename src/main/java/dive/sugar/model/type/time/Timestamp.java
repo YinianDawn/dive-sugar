@@ -33,10 +33,6 @@ public class Timestamp extends BaseTimeColumn {
         super(field, builder, model);
     }
 
-    @Override
-    protected void initType() {
-        this.type = "TIMESTAMP";
-    }
 
     @Override
     protected boolean check(String defaultValue, String from) {

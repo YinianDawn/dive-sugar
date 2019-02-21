@@ -19,9 +19,6 @@ public class VarBinary extends BaseBinaryColumn {
     }
 
     @Override
-    protected void initType() { this.type = "VARBINARY"; }
-
-    @Override
     public boolean same(Column s) {
         if (!exist(s)
                 || !name.equals(s.name)

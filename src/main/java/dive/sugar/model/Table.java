@@ -5,7 +5,6 @@ import dive.sugar.annotate.TABLE;
 import dive.sugar.annotate.TRANSIENT;
 import dive.sugar.Sugar;
 import dive.sugar.annotate.prop.*;
-import dive.sugar.model.type.ModelColumn;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
@@ -213,7 +212,7 @@ public class Table extends Base {
             if (this.sugar.isPrimary()) {
                 columns.get(0).setPrimary();
                 if (this.sugar.isIncrement()) {
-                    columns.get(0).setAutoIncrement();
+                    columns.get(0).setIncrement();
                 }
             } else {
                 log.error("table {}: does not have primary key", name);
@@ -275,7 +274,7 @@ public class Table extends Base {
         String[] cs = tableDefinition.
                 substring(l + 1, r).trim().split(",\n\\s+");
         for (String definition : cs){
-            Column column = new ModelColumn(definition);
+            Column column = new Column(definition);
             if (column.isValid()) {
                 columns.add(column);
             }

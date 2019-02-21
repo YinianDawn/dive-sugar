@@ -40,9 +40,6 @@ public class TinyInt extends BaseIntegerColumn {
     }
 
     @Override
-    protected void initType() { this.type = "TINYINT"; }
-
-    @Override
     protected boolean check(Integer length, String from) {
         if (bool) {
             if (exist(length) && 1 != length) {

@@ -34,9 +34,6 @@ public class DateTime extends BaseTimeColumn {
     }
 
     @Override
-    protected void initType() { this.type = "DATETIME"; }
-
-    @Override
     protected boolean check(String defaultValue, String from) {
         if ("CURRENT_TIMESTAMP".equals(defaultValue)) {
             return true;

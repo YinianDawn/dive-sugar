@@ -65,7 +65,7 @@ public abstract class BaseStringColumn extends Column {
     protected void initZerofill() { }
 
     @Override
-    protected void initAutoIncrement() { }
+    protected void initIncrement() { }
 
     @Override
     public String value(Object value) {

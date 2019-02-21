@@ -23,9 +23,6 @@ public class Decimal extends BaseDecimalColumn {
     }
 
     @Override
-    protected void initType() { this.type = "DECIMAL"; }
-
-    @Override
     public boolean same(Column s) {
         if (!exist(s)
                 || !name.equals(s.name)

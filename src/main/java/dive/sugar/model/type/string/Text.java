@@ -18,7 +18,4 @@ public class Text extends BaseTextColumn {
         super(field, builder, model);
     }
 
-    @Override
-    protected void initType() { this.type = "TEXT"; }
-
 }

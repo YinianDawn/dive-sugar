@@ -30,9 +30,6 @@ public class BigInt extends BaseIntegerColumn {
     }
 
     @Override
-    protected void initType() { this.type = "BIGINT"; }
-
-    @Override
     protected boolean check(String defaultValue, String from) {
         if (!exist(defaultValue)) {
             return true;

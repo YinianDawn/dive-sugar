@@ -21,7 +21,4 @@ public class Float extends BaseFloatColumn {
         super(field, builder, model);
     }
 
-    @Override
-    protected void initType() { this.type = "FLOAT"; }
-
 }

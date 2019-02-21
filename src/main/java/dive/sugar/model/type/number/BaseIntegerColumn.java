@@ -116,7 +116,7 @@ public abstract class BaseIntegerColumn extends Column {
             sb.append(" DEFAULT ").append(defaultValue);
         }
 
-        if (isTrue(primary) && isTrue(autoIncrement)) {
+        if (isTrue(primary) && isTrue(increment)) {
             sb.append(" AUTO_INCREMENT");
         }
 
@@ -178,9 +178,9 @@ public abstract class BaseIntegerColumn extends Column {
             return false;
         }
 
-        if (isTrue(autoIncrement) && !isTrue(s.autoIncrement)) {
+        if (isTrue(increment) && !isTrue(s.increment)) {
             return false;
-        } else if (!isTrue(autoIncrement) && isTrue(s.autoIncrement)) {
+        } else if (!isTrue(increment) && isTrue(s.increment)) {
             return false;
         }
 

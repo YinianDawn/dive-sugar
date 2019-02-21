@@ -19,9 +19,6 @@ public class VarChar extends BaseCharColumn {
     }
 
     @Override
-    protected void initType() { this.type = "VARCHAR"; }
-
-    @Override
     protected boolean check(Integer length, String from) {
         if (!exist(length)) {
             log.error("the length of type {} must not be null", type);

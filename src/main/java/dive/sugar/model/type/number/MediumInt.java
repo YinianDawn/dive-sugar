@@ -24,7 +24,4 @@ public class MediumInt extends BaseIntegerColumn {
         super(field, builder, model);
     }
 
-    @Override
-    protected void initType() { this.type = "MEDIUMINT"; }
-
 }

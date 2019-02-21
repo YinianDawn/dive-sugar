@@ -32,9 +32,6 @@ public class Time extends BaseTimeColumn {
     }
 
     @Override
-    protected void initType() { this.type = "TIME"; }
-
-    @Override
     protected boolean initOnUpdate() { onUpdate = null; return true; }
 
     @Override

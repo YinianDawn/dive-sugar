@@ -19,9 +19,6 @@ public class Binary extends BaseBinaryColumn {
     }
 
     @Override
-    protected void initType() { this.type = "BINARY"; }
-
-    @Override
     protected boolean check(Integer length, String from) {
         if (!exist(length)) {
             return true;

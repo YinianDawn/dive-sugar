@@ -18,7 +18,4 @@ public class LongText extends BaseTextColumn {
         super(field, builder, model);
     }
 
-    @Override
-    protected void initType() { this.type = "LONGTEXT"; }
-
 }

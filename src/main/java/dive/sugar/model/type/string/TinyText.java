@@ -18,7 +18,4 @@ public class TinyText extends BaseTextColumn {
         super(field, builder, model);
     }
 
-    @Override
-    protected void initType() { this.type = "TINYTEXT"; }
-
 }

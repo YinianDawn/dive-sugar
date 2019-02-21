@@ -19,9 +19,6 @@ public class Char extends BaseCharColumn {
     }
 
     @Override
-    protected void initType() { this.type = "CHAR"; }
-
-    @Override
     protected boolean check(Integer length, String from) {
         if (!exist(length)) {
             return true;

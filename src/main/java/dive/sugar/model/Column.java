@@ -515,7 +515,10 @@ public class Column extends Base {
         }
         String d = definition.trim();
         if (Pattern.matches("^(PRIMARY\\s|UNIQUE\\s|)KEY.*", d)
-                || 0 == d.length() || !d.startsWith("`")) {
+                || 0 == d.length()) {
+            return;
+        }
+        if (!d.startsWith("`")) {
             log.error("wrong column definition: {}", definition);
             return;
         }
