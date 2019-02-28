@@ -53,8 +53,7 @@ public class Table extends Base {
             return;
         }
 
-        if (this.table.isAnnotationPresent(TRANSIENT.class)
-                || this.table.isAnnotationPresent(javax.persistence.Transient.class)) {
+        if (this.table.isAnnotationPresent(TRANSIENT.class)) {
             return;
         }
 
@@ -65,10 +64,7 @@ public class Table extends Base {
         }
 
         TABLE tableAnnotate = this.table.getAnnotation(TABLE.class);
-        javax.persistence.Table tablePersistence =
-                this.table.getAnnotation(javax.persistence.Table.class);
         if (this.sugar.isAnnotate()
-                && !exist(tablePersistence)
                 && !exist(tableAnnotate)) {
             log.error("can not init table info --> " +
                     "annotation table is necessary but miss");
@@ -77,11 +73,6 @@ public class Table extends Base {
 
         if (exist(tableAnnotate) && useful(tableAnnotate.value())) {
             this.name = tableAnnotate.value().trim();
-        }
-        if (!useful(name)
-                && exist(tablePersistence)
-                && useful(tablePersistence.name())) {
-            this.name = tablePersistence.name().trim();
         }
         if (!useful(this.name)) {
             NAME nameAnnotate = this.table.getAnnotation(NAME.class);

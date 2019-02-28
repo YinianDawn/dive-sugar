@@ -5,7 +5,6 @@ import dive.sugar.model.Base;
 import dive.sugar.model.Column;
 import dive.sugar.model.Table;
 
-import javax.persistence.Transient;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -387,8 +386,7 @@ public class Sugar {
      * @param table 表
      */
     private void prepare(Class<?> table) {
-        if (!table.isAnnotationPresent(Transient.class)
-                && !table.isAnnotationPresent(TRANSIENT.class)
+        if (!table.isAnnotationPresent(TRANSIENT.class)
                 && !this.deleted.contains(table)) {
             prepare.put(table, new Table(this, table));
         } else {

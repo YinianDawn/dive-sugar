@@ -15,7 +15,6 @@ import dive.sugar.model.type.string.Enum;
 import dive.sugar.model.type.string.*;
 import dive.sugar.model.type.time.*;
 
-import javax.persistence.Transient;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -195,14 +194,6 @@ public class Column extends Base {
                 return false;
             }
         }
-        // from Column
-        if (!useful(this.name)) {
-            javax.persistence.Column columnAnnotation =
-                    field.getAnnotation(javax.persistence.Column.class);
-            if (exist(columnAnnotation)) {
-                this.name = columnAnnotation.name().trim();
-            }
-        }
         // from field name
         if (!useful(this.name)) {
             this.name = Base.name(field.getName(), sugar.isCamel());
@@ -224,18 +215,10 @@ public class Column extends Base {
             this.length = lengthAnnotate.value();
             from = "LENGTH";
         } else {
-            // from Column
-            javax.persistence.Column column =
-                    field.getAnnotation(javax.persistence.Column.class);
-            if (exist(column)) {
-                this.length = column.length();
-                from = "Column";
-            } else {
-                // from model
-                if (exist(this.model) && exist(this.model.length)) {
-                    this.length = this.model.length;
-                    from = "Model";
-                }
+            // from model
+            if (exist(this.model) && exist(this.model.length)) {
+                this.length = this.model.length;
+                from = "Model";
             }
         }
         return this.check(length, from);
@@ -263,19 +246,10 @@ public class Column extends Base {
             this.decimals = decimalsAnnotate.value();
             from = "DECIMALS";
         } else {
-            // from Column
-            javax.persistence.Column column =
-                    field.getAnnotation(javax.persistence.Column.class);
-            if (exist(column)) {
-                precision = column.precision();
-                scale = column.scale();
-                from = "Column";
-            } else {
-                // from model
-                if (exist(this.model) && exist(this.model.decimals)) {
-                    this.decimals = this.model.decimals;
-                    from = "Model";
-                }
+            // from model
+            if (exist(this.model) && exist(this.model.decimals)) {
+                this.decimals = this.model.decimals;
+                from = "Model";
             }
         }
         return this.check(this.decimals, from, precision, scale, d -> this.decimals = d);
@@ -930,8 +904,7 @@ public class Column extends Base {
      * @return 是否忽略
      */
     private static boolean isTransient(Field field) {
-        return field.isAnnotationPresent(TRANSIENT.class)
-                || field.isAnnotationPresent(Transient.class);
+        return field.isAnnotationPresent(TRANSIENT.class);
     }
 
     /**
