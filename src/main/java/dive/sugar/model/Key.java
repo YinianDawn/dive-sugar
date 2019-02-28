@@ -162,24 +162,24 @@ public class Key extends Base {
 
     // =================== tools ======================
 
-    private static Key build(String name, String[] names, String omit,
+    private static Key build(String name, String[] names, String[] values, String omit,
                              String comment, boolean unique) {
-        if (0 == names.length) {
+        if (0 == names.length && 0 == values.length) {
             if (!useful(omit)) {
                 log.error("does not have any name.");
                 return null;
             }
             names = new String[]{omit};
         }
-        return new Key(name.trim(), names, comment.trim(), unique);
+        return new Key(name.trim(), 0 != names.length ? names : values, comment.trim(), unique);
     }
 
     private static Key build(INDEX index, String omit) {
-        return build(index.name(), index.names(), omit, index.comment(), index.unique());
+        return build(index.name(), index.names(), index.value(), omit, index.comment(), index.unique());
     }
 
     private static Key build(UNIQUE unique, String omit) {
-        return build(unique.name(), unique.names(), omit, unique.comment(), unique.unique());
+        return build(unique.name(), unique.names(), unique.value(), omit, unique.comment(), unique.unique());
     }
 
     static List<Key> build(INDEX[] indices, String omit) {
