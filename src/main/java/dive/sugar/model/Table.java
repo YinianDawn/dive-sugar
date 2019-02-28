@@ -107,9 +107,9 @@ public class Table extends Base {
         }
 
         switch (this.sugar.getAuto()) {
-            case "recreate": recreate = true; break;
-            case "create": create = true; break;
-            case "update": break;
+            case REREATE: recreate = true; break;
+            case CREATE: create = true; break;
+            case UPDATE: break;
             default: log.error("auto is " + this.sugar.getAuto()); return;
         }
 

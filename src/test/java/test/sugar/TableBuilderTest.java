@@ -1,5 +1,6 @@
 package test.sugar;
 
+import dive.sugar.Auto;
 import dive.sugar.Sugar;
 import dive.sugar.model.type.string.VarChar;
 import org.junit.Test;
@@ -38,8 +39,8 @@ public class TableBuilderTest {
 
                 .connect(driver, url, username, password)
 
-                .auto("recreate")
-                .auto("update")
+                .auto(Auto.REREATE)
+                .auto(Auto.UPDATE)
 
                 .omit("VARCHAR",
                         new VarChar.Builder()

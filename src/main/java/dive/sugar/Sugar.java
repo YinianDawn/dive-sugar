@@ -23,8 +23,6 @@ import java.util.function.Consumer;
  */
 public class Sugar {
 
-    private static final String AUTO = "recreate|create|update";
-
     /**
      * 日志
      */
@@ -90,7 +88,7 @@ public class Sugar {
      * create 没有的表才会重建
      * update 只更新表结构，不重建
      */
-    private String auto = "create";
+    private Auto auto = Auto.CREATE;
 
     /**
      * 某一类型的默认列类型
@@ -304,9 +302,9 @@ public class Sugar {
      * @param auto 管理方式
      * @return 本实例
      */
-    public Sugar auto(String auto) {
+    public Sugar auto(Auto auto) {
         Objects.requireNonNull(auto, "auto cannot be null");
-        if (!auto.matches(AUTO)) {
+        if (null == auto) {
             this.log.error("the value of 'auto' is {}, can not recognise.", auto);
             return this;
         }
@@ -531,7 +529,7 @@ public class Sugar {
         return annotate;
     }
 
-    public String getAuto() {
+    public Auto getAuto() {
         return auto;
     }
 
