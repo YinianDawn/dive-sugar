@@ -13,14 +13,15 @@ public class Decimal extends BaseDecimalColumn {
 
     // `id` decimal(10,0) DEFAULT NULL
 
-    {
-        lengthMax = 65;
-        decimalMax = 30;
-    }
-
     public Decimal(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
+
+    @Override
+    protected int lengthMax() { return 65; }
+
+    @Override
+    protected int decimalMax() { return 30; }
 
     @Override
     public boolean same(Column s) {

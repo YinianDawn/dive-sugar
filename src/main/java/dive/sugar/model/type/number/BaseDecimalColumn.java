@@ -14,24 +14,33 @@ import java.util.function.Consumer;
  */
 public abstract class BaseDecimalColumn extends Column {
 
-    int lengthMax;
-    int decimalMax;
-
     BaseDecimalColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
+
+    /**
+     * 最大长度
+     * @return 最大长度
+     */
+    protected abstract int lengthMax();
+
+    /**
+     * 最大精度
+     * @return 最大精度
+     */
+    protected abstract int decimalMax();
 
     @Override
     protected boolean check(Integer length, String from) {
         if (!exist(length)) {
             return true;
         }
-        boolean result = 1 <= length && length <= lengthMax;
+        boolean result = 1 <= length && length <= lengthMax();
         if (result) {
             return true;
         }
         log.error("{}: the length of type {} must be 1 ~ {}: {}",
-                from, type, lengthMax, length);
+                from, type, lengthMax(), length);
         return false;
     }
 
@@ -44,20 +53,20 @@ public abstract class BaseDecimalColumn extends Column {
         switch (from) {
             case "Model":
             case "DECIMALS":
-                boolean result = 0 <= decimals && decimals <= decimalMax;
+                boolean result = 0 <= decimals && decimals <= decimalMax();
                 if (result) {
                     break;
                 }
                 log.error("{}: the length of type {} must be 0 ~ {}: {}",
-                        from, type, decimalMax, decimals);
+                        from, type, decimalMax(), decimals);
                 return false;
             case "Column":
-                boolean rp = 0 <= precision && precision <= decimalMax;
-                boolean rs = 0 <= scale && scale <= decimalMax;
+                boolean rp = 0 <= precision && precision <= decimalMax();
+                boolean rs = 0 <= scale && scale <= decimalMax();
                 if (!rp && !rs) {
                     log.error("Column: the length of type {} " +
                                     "must be 0 ~ {}: precision:{}, scale:{}",
-                            type, precision, decimalMax, scale);
+                            type, precision, decimalMax(), scale);
                     return false;
                 }
                 if (rp) {

@@ -12,19 +12,25 @@ public class Int extends BaseIntegerColumn {
 
     // `id` int(11) DEFAULT NULL
 
-    {
-        unsignedMin = 0;
-        unsignedMax = 4294967295L;
-        signedMin = -2147483648;
-        signedMax = 2147483647;
-        defaultLength = 11;
-    }
-
     public Int(Field field, Sugar builder, Column model) {
         super(field, builder, model);
-        if (isTrue(unsigned)) {
-            defaultLength = 10;
-        }
+    }
+
+    @Override
+    protected long unsignedMin() { return 0; }
+
+    @Override
+    protected long unsignedMax() { return 4294967295L; }
+
+    @Override
+    protected long signedMin() { return -2147483648L; }
+
+    @Override
+    protected long signedMax() { return 2147483647L; }
+
+    @Override
+    protected int defaultLength() {
+        return isTrue(unsigned) ? 10 : 11;
     }
 
 }

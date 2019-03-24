@@ -21,13 +21,24 @@ public class BigInt extends BaseIntegerColumn {
     private static final BigInteger SIGNED_MAX =
             new BigInteger("9223372036854775807");
 
-    {
-        defaultLength = 20;
-    }
-
     public BigInt(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
+
+    @Override
+    protected long unsignedMin() { return 0; }
+
+    @Override
+    protected long unsignedMax() { return 0; }
+
+    @Override
+    protected long signedMin() { return 0; }
+
+    @Override
+    protected long signedMax() { return 0; }
+
+    @Override
+    protected int defaultLength() { return 20; }
 
     @Override
     protected boolean check(String defaultValue, String from) {

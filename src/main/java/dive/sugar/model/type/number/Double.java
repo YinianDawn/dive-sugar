@@ -12,13 +12,18 @@ public class Double extends BaseFloatColumn {
 
     // `id` double DEFAULT NULL
 
-    {
-        lengthMax = 35;
-        decimalMax = 15;
-    }
-
     public Double(Field field, Sugar builder, Column model) {
         super(field, builder, model);
+    }
+
+    @Override
+    protected int lengthMax() {
+        return 35;
+    }
+
+    @Override
+    protected int decimalMax() {
+        return 15;
     }
 
 }

@@ -2,6 +2,7 @@ package test.sugar;
 
 import dive.sugar.Auto;
 import dive.sugar.Sugar;
+import dive.sugar.model.type.number.Decimal;
 import dive.sugar.model.type.string.VarChar;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,6 +46,12 @@ public class TableBuilderTest {
                 .omit("VARCHAR",
                         new VarChar.Builder()
                                 .length(255)
+                                .build())
+
+                .omit("DECIMAL",
+                        new Decimal.Builder()
+                                .length(9)
+                                .decimals(1)
                                 .build())
 
                 .delete(Sex.class)

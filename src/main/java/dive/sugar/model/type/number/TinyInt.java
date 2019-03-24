@@ -14,19 +14,26 @@ public class TinyInt extends BaseIntegerColumn {
     // `id` tinyint(4) DEFAULT NULL
     // `id` tinyint(1) DEFAULT NULL boolean
 
-    {
-        unsignedMin = 0;
-        unsignedMax = 255;
-        signedMin = -128;
-        signedMax = 127;
-        defaultLength = 4;
-    }
-
     private boolean bool = false;
 
     public TinyInt(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
+
+    @Override
+    protected long unsignedMin() { return 0; }
+
+    @Override
+    protected long unsignedMax() { return 255L; }
+
+    @Override
+    protected long signedMin() { return -128L; }
+
+    @Override
+    protected long signedMax() { return 127L; }
+
+    @Override
+    protected int defaultLength() { return 4; }
 
     @Override
     protected void init() {

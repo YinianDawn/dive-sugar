@@ -12,16 +12,23 @@ public class SmallInt extends BaseIntegerColumn {
 
     // `id` smallint(6) DEFAULT NULL
 
-    {
-        unsignedMin = 0;
-        unsignedMax = 65535;
-        signedMin = -32768;
-        signedMax = 32767;
-        defaultLength = 6;
-    }
-
     public SmallInt(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
+
+    @Override
+    protected long unsignedMin() { return 0; }
+
+    @Override
+    protected long unsignedMax() { return 65535L; }
+
+    @Override
+    protected long signedMin() { return -32768L; }
+
+    @Override
+    protected long signedMax() { return 32767L; }
+
+    @Override
+    protected int defaultLength() { return 6; }
 
 }

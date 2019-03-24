@@ -12,13 +12,14 @@ public class Float extends BaseFloatColumn {
 
     // `id` float DEFAULT NULL
 
-    {
-        lengthMax = 16;
-        decimalMax = 7;
-    }
-
     public Float(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
+
+    @Override
+    protected int lengthMax() { return 16; }
+
+    @Override
+    protected int decimalMax() { return 7; }
 
 }

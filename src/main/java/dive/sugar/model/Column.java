@@ -702,7 +702,7 @@ public class Column extends Base {
 
     @Override
     public String toString() {
-        return "Column{" +
+        return this.getClass().getSimpleName() + "{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", values=" + java.util.Arrays.toString(values) +

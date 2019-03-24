@@ -6,6 +6,7 @@ import dive.sugar.annotate.index.UNIQUE;
 import dive.sugar.annotate.prop.*;
 import dive.sugar.annotate.type.SET;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
@@ -38,6 +39,8 @@ public class Unique {
     private Integer age;
 
     private Integer age2;
+
+    private BigDecimal salary;
 
     @UNIQUE
     private String email;

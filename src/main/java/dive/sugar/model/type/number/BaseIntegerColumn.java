@@ -13,15 +13,39 @@ import java.util.function.Consumer;
  */
 public abstract class BaseIntegerColumn extends Column {
 
-    long unsignedMin;
-    long unsignedMax;
-    long signedMin;
-    long signedMax;
-    int defaultLength;
-
     BaseIntegerColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
+
+    /**
+     * 无符号最小值
+     * @return 无符号最小值
+     */
+    protected abstract long unsignedMin();
+
+    /**
+     * 无符号最大值
+     * @return 无符号最大值
+     */
+    protected abstract long unsignedMax();
+
+    /**
+     * 有符号最小值
+     * @return 有符号最小值
+     */
+    protected abstract long signedMin();
+
+    /**
+     * 有符号最大值
+     * @return 有符号最大值
+     */
+    protected abstract long signedMax();
+
+    /**
+     * 默认长度
+     * @return 默认长度
+     */
+    protected abstract int defaultLength();
 
     @Override
     protected boolean check(Integer length, String from) {
@@ -66,21 +90,21 @@ public abstract class BaseIntegerColumn extends Column {
         try {
             Long value = Long.parseLong(defaultValue);
             if (exist(unsigned) && unsigned) {
-                boolean result = unsignedMin <= value && value < unsignedMax;
+                boolean result = unsignedMin() <= value && value < unsignedMax();
                 if (result) {
                     return true;
                 }
                 log.error("{}: the default value of type unsigned {} " +
                                 "must be {} ~ {}: {}",
-                        from, type, unsignedMin, unsignedMax, defaultValue);
+                        from, type, unsignedMin(), unsignedMax(), defaultValue);
             } else {
-                boolean result = signedMin <= value && value <= signedMax;
+                boolean result = signedMin() <= value && value <= signedMax();
                 if (result) {
                     return true;
                 }
                 log.error("{}: the default value of type {} " +
                                 "must be {} ~ {}: {}",
-                        from, type, signedMin, signedMax, defaultValue);
+                        from, type, signedMin(), signedMax(), defaultValue);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -149,7 +173,7 @@ public abstract class BaseIntegerColumn extends Column {
 
         Integer length = this.length;
         if (!exist(length)) {
-            length = defaultLength;
+            length = defaultLength();
         }
         if (!length.equals(s.length)) {
             return false;

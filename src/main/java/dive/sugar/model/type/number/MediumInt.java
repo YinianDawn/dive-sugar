@@ -12,16 +12,23 @@ public class MediumInt extends BaseIntegerColumn {
 
     // `id` mediumint(9) DEFAULT NULL
 
-    {
-        unsignedMin = 0;
-        unsignedMax = 16777215;
-        signedMin = -8388608;
-        signedMax = 8388607;
-        defaultLength = 9;
-    }
-
     public MediumInt(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
+
+    @Override
+    protected long unsignedMin() { return 0; }
+
+    @Override
+    protected long unsignedMax() { return 16777215L; }
+
+    @Override
+    protected long signedMin() { return -8388608L; }
+
+    @Override
+    protected long signedMax() { return 8388607L; }
+
+    @Override
+    protected int defaultLength() { return 9; }
 
 }
