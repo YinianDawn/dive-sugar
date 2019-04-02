@@ -117,7 +117,7 @@ public abstract class BaseSetColumn extends BaseTextColumn {
 
         if (exist(comment) && !comment.equals(s.comment)) {
             return false;
-        } else if (!exist(collate) && exist(s.comment)) {
+        } else if (!exist(comment) && exist(s.comment)) {
             return false;
         }
 
