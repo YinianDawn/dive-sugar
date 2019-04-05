@@ -465,12 +465,12 @@ public class Column extends Base {
     private void initComment() {
         // from COMMENT
         COMMENT commentAnnotate = field.getAnnotation(COMMENT.class);
-        if (exist(commentAnnotate)) {
-            this.comment = commentAnnotate.value();
+        if (exist(commentAnnotate) && useful(commentAnnotate.value().trim())) {
+            this.comment = commentAnnotate.value().trim();
         }
 
         // from model
-        if (!exist(this.comment) && exist(this.model) && exist(this.model.comment)) {
+        if (!exist(this.comment) && exist(this.model) && useful(this.model.comment)) {
             this.comment = this.model.comment;
         }
     }

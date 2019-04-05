@@ -71,38 +71,38 @@ public class Table extends Base {
             return;
         }
 
-        if (exist(tableAnnotate) && useful(tableAnnotate.value())) {
+        if (exist(tableAnnotate) && useful(tableAnnotate.value().trim())) {
             this.name = tableAnnotate.value().trim();
         }
         if (!useful(this.name)) {
             NAME nameAnnotate = this.table.getAnnotation(NAME.class);
-            if (exist(nameAnnotate) && useful(nameAnnotate.value())) {
+            if (exist(nameAnnotate) && useful(nameAnnotate.value().trim())) {
                 this.name = nameAnnotate.value().trim();
             }
         }
 
         ENGINE engineAnnotation = this.table.getAnnotation(ENGINE.class);
-        if (exist(engineAnnotation) && useful(engineAnnotation.value())) {
+        if (exist(engineAnnotation) && useful(engineAnnotation.value().trim())) {
             this.engine = engineAnnotation.value().trim();
         }
 
         CHARSET charsetAnnotation = this.table.getAnnotation(CHARSET.class);
-        if (exist(charsetAnnotation) && useful(charsetAnnotation.value())) {
+        if (exist(charsetAnnotation) && useful(charsetAnnotation.value().trim())) {
             this.charset = charsetAnnotation.value().trim();
         }
 
         COLLATE collateAnnotation = this.table.getAnnotation(COLLATE.class);
-        if (exist(collateAnnotation) && useful(collateAnnotation.value())) {
+        if (exist(collateAnnotation) && useful(collateAnnotation.value().trim())) {
             this.collate = collateAnnotation.value().trim();
         }
 
         COMMENT commentAnnotation = this.table.getAnnotation(COMMENT.class);
-        if (exist(commentAnnotation) && useful(commentAnnotation.value())) {
+        if (exist(commentAnnotation) && useful(commentAnnotation.value().trim())) {
             this.comment = commentAnnotation.value().trim();
         }
 
         FROM fromAnnotation = this.table.getAnnotation(FROM.class);
-        if (exist(fromAnnotation) && useful(fromAnnotation.value())) {
+        if (exist(fromAnnotation) && useful(fromAnnotation.value().trim())) {
             this.from = fromAnnotation.value().trim();
         }
 
