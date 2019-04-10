@@ -111,12 +111,14 @@ public abstract class BaseDecimalColumn extends Column {
             }
 
             if (exist(decimals)) {
-                String l = defaultValue.substring(
-                        defaultValue.lastIndexOf(".") + 1);
-                if (decimals < l.length()) {
-                    log.error("{}: the default value {} is too long," +
-                            " the decimals is {}", from, defaultValue, decimals);
-                    return false;
+                int index = defaultValue.lastIndexOf(".");
+                if (0 < index) {
+                    String l = defaultValue.substring(index + 1);
+                    if (decimals < l.length()) {
+                        log.error("{}: the default value {} is too long," +
+                                " the decimals is {}", from, defaultValue, decimals);
+                        return false;
+                    }
                 }
             }
             new BigDecimal(defaultValue);
