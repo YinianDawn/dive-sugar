@@ -703,6 +703,8 @@ public class Table extends Base {
                     "\\n\\s*`" + from + "` ", ",\n[\\s]*");
             sql = "ALTER TABLE `" + tableName + "` CHANGE `"
                     + from + "` `" + name + "` " + definition + ";";
+            log.error("rename table `{}` column `{}` to `{}`: {}",
+                    tableName, from, name, sql);
             stmt.execute(sql);
         } catch (SQLException e) {
             e.printStackTrace();
