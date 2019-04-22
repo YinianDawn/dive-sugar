@@ -1,12 +1,13 @@
 package dive.sugar.model;
 
+import dive.sugar.Sugar;
 import dive.sugar.annotate.EXTEND;
 import dive.sugar.annotate.TABLE;
 import dive.sugar.annotate.TRANSIENT;
-import dive.sugar.Sugar;
 import dive.sugar.annotate.prop.*;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -136,6 +137,9 @@ public class Table extends Base {
         }
 
         for (Field f : this.table.getDeclaredFields()) {
+            if (Modifier.isStatic(f.getModifiers())) {
+                continue;
+            }
             Column column = Column.build(f, this.sugar);
             if (exist(column) && column.isValid()) {
                 columns.add(column);
