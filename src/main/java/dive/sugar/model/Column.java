@@ -431,6 +431,10 @@ public class Column extends Base {
                 log.error("primary key must be not null");
                 return false;
             }
+            NOTNULL notNullAnnotate = field.getAnnotation(NOTNULL.class);
+            if (!exist(notNullAnnotate)) {
+                notNull = false;
+            }
         }
 
         // from model
