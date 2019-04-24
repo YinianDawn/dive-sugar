@@ -178,6 +178,8 @@ public class Column extends Base {
 
         this.initComment();
 
+        this.initFrom();
+
         this.initKeys();
 
         valid = true;
@@ -476,6 +478,14 @@ public class Column extends Base {
         // from model
         if (!exist(this.comment) && exist(this.model) && useful(this.model.comment)) {
             this.comment = this.model.comment;
+        }
+    }
+
+    private void initFrom() {
+        // from FROM
+        FROM fromAnnotate = field.getAnnotation(FROM.class);
+        if (exist(fromAnnotate) && useful(fromAnnotate.value().trim())) {
+            this.from = fromAnnotate.value().trim();
         }
     }
 
