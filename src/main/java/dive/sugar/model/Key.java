@@ -40,9 +40,12 @@ public class Key extends Base {
      * @param comment 注释
      * @param unique  是否唯一索引
      */
-    private Key(String name, String[] names, String comment, Boolean unique) {
+    private Key(String name, String[] names, String comment, Boolean unique, boolean camel) {
         this.name = name;
         this.names = names;
+        for (int i = 0; i < names.length; i++) {
+            this.names[i] = Base.name(names[i], camel);
+        }
         this.comment = comment;
         this.unique = unique;
     }
@@ -163,7 +166,7 @@ public class Key extends Base {
     // =================== tools ======================
 
     private static Key build(String name, String[] names, String[] values, String omit,
-                             String comment, boolean unique) {
+                             String comment, boolean unique, boolean camel) {
         if (0 == names.length && 0 == values.length) {
             if (!useful(omit)) {
                 log.error("does not have any name.");
@@ -171,26 +174,26 @@ public class Key extends Base {
             }
             names = new String[]{omit};
         }
-        return new Key(name.trim(), 0 != names.length ? names : values, comment.trim(), unique);
+        return new Key(name.trim(), 0 != names.length ? names : values, comment.trim(), unique, camel);
     }
 
-    private static Key build(INDEX index, String omit) {
-        return build(index.name(), index.names(), index.value(), omit, index.comment(), index.unique());
+    private static Key build(INDEX index, String omit, boolean camel) {
+        return build(index.name(), index.names(), index.value(), omit, index.comment(), index.unique(), camel);
     }
 
-    private static Key build(UNIQUE unique, String omit) {
-        return build(unique.name(), unique.names(), unique.value(), omit, unique.comment(), unique.unique());
+    private static Key build(UNIQUE unique, String omit, boolean camel) {
+        return build(unique.name(), unique.names(), unique.value(), omit, unique.comment(), unique.unique(), camel);
     }
 
-    static List<Key> build(INDEX[] indices, String omit) {
+    static List<Key> build(INDEX[] indices, String omit, boolean camel) {
         return Arrays.stream(indices)
-                .map(index -> build(index, omit))
+                .map(index -> build(index, omit, camel))
                 .collect(Collectors.toList());
     }
 
-    static List<Key> build(UNIQUE[] uniques, String omit) {
+    static List<Key> build(UNIQUE[] uniques, String omit, boolean camel) {
         return Arrays.stream(uniques)
-                .map(unique -> build(unique, omit))
+                .map(unique -> build(unique, omit, camel))
                 .collect(Collectors.toList());
     }
 
@@ -200,11 +203,11 @@ public class Key extends Base {
      * @param table 表
      * @return 索引信息
      */
-    static List<Key> build(Class<?> table) {
+    static List<Key> build(Class<?> table, boolean camel) {
         INDEX[] indices = table.getAnnotationsByType(INDEX.class);
-        List<Key> keys = new LinkedList<>(build(indices, null));
+        List<Key> keys = new LinkedList<>(build(indices, null, camel));
         UNIQUE[] uniques = table.getAnnotationsByType(UNIQUE.class);
-        keys.addAll(build(uniques, null));
+        keys.addAll(build(uniques, null, camel));
         return keys;
     }
 

@@ -224,7 +224,7 @@ public class Table extends Base {
                 keys.addAll(c.keys);
             }
         }
-        List<Key> ks = Key.build(this.table);
+        List<Key> ks = Key.build(this.table, this.sugar.isCamel());
         if (exist(ks) && 0 < ks.size()) {
             keys.addAll(ks);
         }

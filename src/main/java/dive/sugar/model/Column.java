@@ -485,16 +485,16 @@ public class Column extends Base {
         // from FROM
         FROM fromAnnotate = field.getAnnotation(FROM.class);
         if (exist(fromAnnotate) && useful(fromAnnotate.value().trim())) {
-            this.from = fromAnnotate.value().trim();
+            this.from = Base.name(fromAnnotate.value().trim(), this.sugar.isCamel());
         }
     }
 
     private void initKeys() {
         this.keys = new java.util.ArrayList<>();
         INDEX[] indices = field.getAnnotationsByType(INDEX.class);
-        this.keys.addAll(Key.build(indices, name));
+        this.keys.addAll(Key.build(indices, name, this.sugar.isCamel()));
         UNIQUE[] uniques = field.getAnnotationsByType(UNIQUE.class);
-        this.keys.addAll(Key.build(uniques, name));
+        this.keys.addAll(Key.build(uniques, name, this.sugar.isCamel()));
     }
 
     public Column(String definition) {
