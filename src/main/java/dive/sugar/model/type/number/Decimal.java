@@ -65,6 +65,9 @@ public class Decimal extends BaseDecimalColumn {
         }
 
         if (useful(defaultValue)) {
+            if (!useful(s.defaultValue)) {
+                return false;
+            }
             BigDecimal d = new BigDecimal(defaultValue);
             BigDecimal e = new BigDecimal(s.defaultValue);
             int scale = d.scale() < e.scale() ? e.scale() : d.scale();
@@ -73,7 +76,7 @@ public class Decimal extends BaseDecimalColumn {
             if (d.compareTo(e) != 0) {
                 return false;
             }
-        } else if (useful(defaultValue)) {
+        } else if (useful(s.defaultValue)) {
             return false;
         }
 

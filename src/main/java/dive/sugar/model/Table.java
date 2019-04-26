@@ -352,7 +352,7 @@ public class Table extends Base {
                             "skip this checking", name);
                     continue;
                 }
-                Column d  = columns.get(i);
+                Column d = columns.get(i);
                 Column e = getColumnByName(d.getName(), exist.columns);
                 if (exist(e)) {
                     if (!d.same(e)){
