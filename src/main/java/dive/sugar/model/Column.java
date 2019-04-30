@@ -990,7 +990,7 @@ public class Column extends Base {
             return "TINYINT";
         }
 
-        return null;
+        return type;
     }
 
     /**
