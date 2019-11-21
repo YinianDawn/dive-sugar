@@ -5,6 +5,7 @@ import dive.sugar.annotate.EXTEND;
 import dive.sugar.annotate.TABLE;
 import dive.sugar.annotate.TRANSIENT;
 import dive.sugar.annotate.prop.*;
+import dive.sugar.model.type.string.BaseCharColumn;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -560,7 +561,11 @@ public class Table extends Base {
             StringBuilder values = new StringBuilder("(");
             map.forEach((c, v) -> {
                 names.append("`").append(c.name).append("`,");
-                values.append(v).append(",");
+                if (c instanceof BaseCharColumn) {
+                    values.append("'").append(v).append("'").append(",");
+                } else {
+                    values.append(v).append(",");
+                }
             });
             names.replace(names.length() - 1, names.length(), ")");
             values.replace(values.length() - 1, names.length(), ")");
