@@ -568,7 +568,7 @@ public class Table extends Base {
                 }
             });
             names.replace(names.length() - 1, names.length(), ")");
-            values.replace(values.length() - 1, names.length(), ")");
+            values.replace(values.length() - 1, values.length(), ")");
             sql += names.toString() + " VALUES " + values.toString();
         }
         try {
