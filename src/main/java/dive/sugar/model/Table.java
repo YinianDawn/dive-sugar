@@ -195,7 +195,7 @@ public class Table extends Base {
 
         columns.get(0).setPlace("FIRST");
         for (int i = 1, l = columns.size(); i < l; i++) {
-            columns.get(i).setPlace("AFTER " + columns.get(i - 1).getName());
+            columns.get(i).setPlace("AFTER `" + columns.get(i - 1).getName() + "`");
         }
 
         List<Column> primaries = new ArrayList<>();
@@ -300,7 +300,7 @@ public class Table extends Base {
         }
         columns.get(0).setPlace("FIRST");
         for (int i = 1, length = columns.size(); i < length; i++) {
-            columns.get(i).setPlace("AFTER " + columns.get(i - 1).getName());
+            columns.get(i).setPlace("AFTER `" + columns.get(i - 1).getName() + "`");
         }
         for (String definition : cs){
             Key key = new Key(definition);
