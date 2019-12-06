@@ -17,14 +17,30 @@ public class Time extends BaseTimeColumn {
 
     // `id` time DEFAULT NULL
 
+    private Date max;
+
     {
-        sdf_ = "mm:ss";
         try {
-            max = new SimpleDateFormat(sdf_ + ".SSSSSS")
+            max = new SimpleDateFormat(sdf_() + ".SSSSSS")
                     .parse("59:59.999999");
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    String sdf_() {
+        return "mm:ss";
+    }
+
+    @Override
+    Date min() {
+        return null;
+    }
+
+    @Override
+    Date max() {
+        return max;
     }
 
     public Time(Field field, Sugar builder, Column model) {
@@ -53,7 +69,7 @@ public class Time extends BaseTimeColumn {
             return false;
         }
         f = scale.length();
-        StringBuilder sb = new StringBuilder(sdf_);
+        StringBuilder sb = new StringBuilder(sdf_());
         if (0 < f) {
             sb.append(".");
             while (f-->0) sb.append("S");
@@ -65,7 +81,7 @@ public class Time extends BaseTimeColumn {
             boolean result = -838 <= time && time <= 838;
             if (result) {
                 if (time == -838 || time == 838) {
-                    max = new SimpleDateFormat(sdf_).parse("59:59");
+                    max = new SimpleDateFormat(sdf_()).parse("59:59");
                 }
                 Date date = sdf.parse(defaultValue
                         .substring(defaultValue.indexOf(":") +1));

@@ -10,8 +10,9 @@ import java.lang.reflect.Field;
  */
 public class VarBinary extends BaseBinaryColumn {
 
-    {
-        lengthMax = 65535;
+    @Override
+    long lengthMax() {
+        return 65535;
     }
 
     public VarBinary(Field field, Sugar builder, Column model) {

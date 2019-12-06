@@ -10,8 +10,9 @@ import java.lang.reflect.Field;
  */
 public class MediumText extends BaseTextColumn {
 
-    {
-        lengthMax = 16777215;
+    @Override
+    long lengthMax() {
+        return 16777215;
     }
 
     public MediumText(Field field, Sugar builder, Column model) {

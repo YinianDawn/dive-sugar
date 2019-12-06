@@ -12,6 +12,11 @@ import java.util.Arrays;
  */
 public class Set extends BaseSetColumn {
 
+    @Override
+    long lengthMax() {
+        return 0;
+    }
+
     public Set(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }

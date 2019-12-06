@@ -17,9 +17,21 @@ import java.util.function.Consumer;
  */
 public abstract class BaseTimeColumn extends Column {
 
-    String sdf_ = "yyyy-MM-dd HH:mm:ss";
-    java.util.Date min;
-    java.util.Date max;
+    String sdf_() {
+        return "yyyy-MM-dd HH:mm:ss";
+    }
+
+    /**
+     * 最小
+     * @return
+     */
+    abstract java.util.Date min();
+
+    /**
+     * 最大
+     * @return
+     */
+    abstract java.util.Date max();
 
     BaseTimeColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
@@ -85,7 +97,7 @@ public abstract class BaseTimeColumn extends Column {
             return false;
         }
         f = scale.length();
-        StringBuilder sb = new StringBuilder(sdf_);
+        StringBuilder sb = new StringBuilder(sdf_());
         if (0 < f) {
             sb.append(".");
             while (f-->0) sb.append("S");
@@ -93,18 +105,18 @@ public abstract class BaseTimeColumn extends Column {
         SimpleDateFormat sdf = new SimpleDateFormat(sb.toString());
         try {
             Date date = sdf.parse(defaultValue);
-            if (exist(min) && exist(max)) {
-                boolean result = min.getTime() < date.getTime()
-                        && date.getTime() < max.getTime();
+            if (exist(min()) && exist(max())) {
+                boolean result = min().getTime() < date.getTime()
+                        && date.getTime() < max().getTime();
                 if (result) {
                     return true;
                 }
-                SimpleDateFormat sdf2 = new SimpleDateFormat(sdf_);
+                SimpleDateFormat sdf2 = new SimpleDateFormat(sdf_());
                 log.error("{}: {} is not a valid date, min:{} ~ max:{}",
-                        from, defaultValue, sdf2.format(min), sdf2.format(max));
+                        from, defaultValue, sdf2.format(min()), sdf2.format(max()));
             } else {
                 log.error("{}: init min and max error: {}, {}",
-                        from, min, max);
+                        from, min(), max());
             }
         } catch (ParseException e) {
             e.printStackTrace();

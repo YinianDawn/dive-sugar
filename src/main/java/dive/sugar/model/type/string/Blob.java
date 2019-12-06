@@ -10,8 +10,9 @@ import java.lang.reflect.Field;
  */
 public class Blob extends BaseBlobColumn {
 
-    {
-        lengthMax = 65535;
+    @Override
+    long lengthMax() {
+        return 65535;
     }
 
     public Blob(Field field, Sugar builder, Column model) {

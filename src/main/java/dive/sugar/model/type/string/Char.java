@@ -10,8 +10,9 @@ import java.lang.reflect.Field;
  */
 public class Char extends BaseCharColumn {
 
-    {
-        lengthMax = 255;
+    @Override
+    long lengthMax() {
+        return 255;
     }
 
     public Char(Field field, Sugar builder, Column model) {

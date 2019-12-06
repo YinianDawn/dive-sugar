@@ -11,7 +11,11 @@ import java.util.function.Consumer;
  */
 public abstract class BaseStringColumn extends Column {
 
-    int lengthMax;
+    /**
+     * 最大
+     * @return
+     */
+    abstract long lengthMax();
 
     BaseStringColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
@@ -22,6 +26,7 @@ public abstract class BaseStringColumn extends Column {
         if (!exist(length)) {
             return true;
         }
+        long lengthMax = lengthMax();
         boolean result = 0 <= length && length <= lengthMax;
         if (result) {
             return true;

@@ -10,8 +10,9 @@ import java.lang.reflect.Field;
  */
 public class TinyText extends BaseTextColumn {
 
-    {
-        lengthMax = 255;
+    @Override
+    long lengthMax() {
+        return 255;
     }
 
     public TinyText(Field field, Sugar builder, Column model) {

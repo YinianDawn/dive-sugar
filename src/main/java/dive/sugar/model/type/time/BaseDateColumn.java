@@ -15,9 +15,23 @@ import java.util.function.Consumer;
  */
 abstract class BaseDateColumn extends Column {
 
-    SimpleDateFormat sdf;
-    java.util.Date min;
-    java.util.Date max;
+    /**
+     * 格式
+     * @return
+     */
+    abstract SimpleDateFormat sdf();
+
+    /**
+     * 最小
+     * @return
+     */
+    abstract java.util.Date min();
+
+    /**
+     * 最大
+     * @return
+     */
+    abstract java.util.Date max();
 
     BaseDateColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
@@ -62,17 +76,17 @@ abstract class BaseDateColumn extends Column {
             return true;
         }
         try {
-            java.util.Date date = sdf.parse(defaultValue);
-            if (exist(min) && exist(max)) {
-                boolean result = min.getTime() < date.getTime()
-                        && date.getTime() < max.getTime();
+            java.util.Date date = sdf().parse(defaultValue);
+            if (exist(min()) && exist(max())) {
+                boolean result = min().getTime() < date.getTime()
+                        && date.getTime() < max().getTime();
                 if (result) {
                     return true;
                 }
                 log.error("{}: {} is not a valid date", from, defaultValue);
             } else {
                 log.error("{}: init min and max error: {}, {}",
-                        from, min, max);
+                        from, min(), max());
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -117,7 +131,7 @@ abstract class BaseDateColumn extends Column {
             return null;
         }
         if (value instanceof java.util.Date) {
-            return sdf.format((java.util.Date) value);
+            return sdf().format((java.util.Date) value);
         }
         return null;
     }

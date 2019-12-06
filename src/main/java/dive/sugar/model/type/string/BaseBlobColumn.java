@@ -10,8 +10,6 @@ import java.lang.reflect.Field;
  */
 abstract class BaseBlobColumn extends BaseBinaryColumn {
 
-    long lengthMax;
-
     BaseBlobColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
@@ -28,10 +26,10 @@ abstract class BaseBlobColumn extends BaseBinaryColumn {
             return true;
         }
         int l = defaultValue.length();
-        if (lengthMax < l) {
+        if (lengthMax() < l) {
             log.error("{}: the max length of type {} is {}, " +
                             "but default value({})'s length is {}",
-                    from, type, lengthMax, defaultValue, l);
+                    from, type, lengthMax(), defaultValue, l);
             return false;
         }
         return true;

@@ -10,8 +10,9 @@ import java.lang.reflect.Field;
  */
 public class Binary extends BaseBinaryColumn {
 
-    {
-        lengthMax = 255;
+    @Override
+    long lengthMax() {
+        return 255;
     }
 
     public Binary(Field field, Sugar builder, Column model) {

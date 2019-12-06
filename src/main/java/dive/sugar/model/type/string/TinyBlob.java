@@ -10,8 +10,9 @@ import java.lang.reflect.Field;
  */
 public class TinyBlob extends BaseBlobColumn {
 
-    {
-        lengthMax = 255;
+    @Override
+    long lengthMax() {
+        return 255;
     }
 
     public TinyBlob(Field field, Sugar builder, Column model) {

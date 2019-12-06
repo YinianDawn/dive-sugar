@@ -11,7 +11,12 @@ import java.util.Arrays;
  * @author dawn
  */
 public class Enum extends BaseSetColumn {
-    
+
+    @Override
+    long lengthMax() {
+        return 0;
+    }
+
     public Enum(Field field, Sugar builder, Column model) {
         super(field, builder, model);
     }
