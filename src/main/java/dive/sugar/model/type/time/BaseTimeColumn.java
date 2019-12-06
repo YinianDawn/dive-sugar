@@ -17,9 +17,9 @@ import java.util.function.Consumer;
  */
 public abstract class BaseTimeColumn extends Column {
 
-    static String SDF = "yyyy-MM-dd HH:mm:ss";
-    static java.util.Date min;
-    static java.util.Date max;
+    String sdf_ = "yyyy-MM-dd HH:mm:ss";
+    java.util.Date min;
+    java.util.Date max;
 
     BaseTimeColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
@@ -85,7 +85,7 @@ public abstract class BaseTimeColumn extends Column {
             return false;
         }
         f = scale.length();
-        StringBuilder sb = new StringBuilder(SDF);
+        StringBuilder sb = new StringBuilder(sdf_);
         if (0 < f) {
             sb.append(".");
             while (f-->0) sb.append("S");
@@ -99,7 +99,7 @@ public abstract class BaseTimeColumn extends Column {
                 if (result) {
                     return true;
                 }
-                SimpleDateFormat sdf2 = new SimpleDateFormat(SDF);
+                SimpleDateFormat sdf2 = new SimpleDateFormat(sdf_);
                 log.error("{}: {} is not a valid date, min:{} ~ max:{}",
                         from, defaultValue, sdf2.format(min), sdf2.format(max));
             } else {

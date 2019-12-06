@@ -15,9 +15,9 @@ import java.util.function.Consumer;
  */
 abstract class BaseDateColumn extends Column {
 
-    static SimpleDateFormat SDF;
-    static java.util.Date min;
-    static java.util.Date max;
+    SimpleDateFormat sdf;
+    java.util.Date min;
+    java.util.Date max;
 
     BaseDateColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);
@@ -62,7 +62,7 @@ abstract class BaseDateColumn extends Column {
             return true;
         }
         try {
-            java.util.Date date = SDF.parse(defaultValue);
+            java.util.Date date = sdf.parse(defaultValue);
             if (exist(min) && exist(max)) {
                 boolean result = min.getTime() < date.getTime()
                         && date.getTime() < max.getTime();
@@ -117,7 +117,7 @@ abstract class BaseDateColumn extends Column {
             return null;
         }
         if (value instanceof java.util.Date) {
-            return SDF.format((java.util.Date) value);
+            return sdf.format((java.util.Date) value);
         }
         return null;
     }

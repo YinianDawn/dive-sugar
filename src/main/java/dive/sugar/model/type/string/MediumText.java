@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  */
 public class MediumText extends BaseTextColumn {
 
-    static {
+    {
         lengthMax = 16777215;
     }
 

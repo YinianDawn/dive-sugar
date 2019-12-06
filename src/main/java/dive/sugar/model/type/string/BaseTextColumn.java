@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  */
 abstract class BaseTextColumn extends BaseStringColumn {
 
-    static long lengthMax;
+    long lengthMax;
 
     BaseTextColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);

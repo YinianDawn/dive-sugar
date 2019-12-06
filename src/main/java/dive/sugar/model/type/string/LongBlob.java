@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  */
 public class LongBlob extends BaseBlobColumn {
 
-    static {
+    {
         lengthMax = 4294967295L;
     }
 

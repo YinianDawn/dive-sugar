@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  */
 public class Text extends BaseTextColumn {
 
-    static {
+    {
         lengthMax = 65535;
     }
 

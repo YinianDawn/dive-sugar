@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  */
 abstract class BaseBlobColumn extends BaseBinaryColumn {
 
-    static long lengthMax;
+    long lengthMax;
 
     BaseBlobColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);

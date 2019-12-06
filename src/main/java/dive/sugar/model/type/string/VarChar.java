@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  */
 public class VarChar extends BaseCharColumn {
 
-    static {
+    {
         lengthMax = 65535;
     }
 

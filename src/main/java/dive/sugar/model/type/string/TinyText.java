@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  */
 public class TinyText extends BaseTextColumn {
 
-    static {
+    {
         lengthMax = 255;
     }
 

@@ -16,14 +16,14 @@ public class DateTime extends BaseTimeColumn {
 
     // `id` datetime DEFAULT NULL
 
-    static {
+    {
         try {
-            min = new SimpleDateFormat(SDF).parse("1000-01-01 00:00:00");
+            min = new SimpleDateFormat(sdf_).parse("1000-01-01 00:00:00");
         } catch (ParseException e) {
             e.printStackTrace();
         }
         try {
-            max = new SimpleDateFormat(SDF).parse("9999-12-31 23:59:59");
+            max = new SimpleDateFormat(sdf_).parse("9999-12-31 23:59:59");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -47,7 +47,7 @@ public class DateTime extends BaseTimeColumn {
             return null;
         }
         if (value instanceof java.util.Date) {
-            return new SimpleDateFormat(SDF).format((java.util.Date) value);
+            return new SimpleDateFormat(sdf_).format((java.util.Date) value);
         }
         return null;
     }

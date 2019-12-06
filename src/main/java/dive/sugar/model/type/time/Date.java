@@ -16,15 +16,15 @@ public class Date extends BaseDateColumn {
 
     // `id` date DEFAULT NULL
 
-    static {
-        SDF = new SimpleDateFormat("yyyy-MM-dd");
+    {
+        sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            min = SDF.parse("1000-01-01");
+            min = sdf.parse("1000-01-01");
         } catch (ParseException e) {
             e.printStackTrace();
         }
         try {
-            max = SDF.parse("9999-12-31");
+            max = sdf.parse("9999-12-31");
         } catch (ParseException e) {
             e.printStackTrace();
         }

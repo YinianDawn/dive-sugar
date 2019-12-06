@@ -11,7 +11,7 @@ import java.util.function.Consumer;
  */
 public abstract class BaseStringColumn extends Column {
 
-    static int lengthMax;
+    int lengthMax;
 
     BaseStringColumn(Field field, Sugar builder, Column model) {
         super(field, builder, model);

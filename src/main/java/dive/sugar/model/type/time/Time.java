@@ -17,10 +17,10 @@ public class Time extends BaseTimeColumn {
 
     // `id` time DEFAULT NULL
 
-    static {
-        SDF = "mm:ss";
+    {
+        sdf_ = "mm:ss";
         try {
-            max = new SimpleDateFormat(SDF + ".SSSSSS")
+            max = new SimpleDateFormat(sdf_ + ".SSSSSS")
                     .parse("59:59.999999");
         } catch (ParseException e) {
             e.printStackTrace();
@@ -53,7 +53,7 @@ public class Time extends BaseTimeColumn {
             return false;
         }
         f = scale.length();
-        StringBuilder sb = new StringBuilder(SDF);
+        StringBuilder sb = new StringBuilder(sdf_);
         if (0 < f) {
             sb.append(".");
             while (f-->0) sb.append("S");
@@ -65,7 +65,7 @@ public class Time extends BaseTimeColumn {
             boolean result = -838 <= time && time <= 838;
             if (result) {
                 if (time == -838 || time == 838) {
-                    max = new SimpleDateFormat(SDF).parse("59:59");
+                    max = new SimpleDateFormat(sdf_).parse("59:59");
                 }
                 Date date = sdf.parse(defaultValue
                         .substring(defaultValue.indexOf(":") +1));

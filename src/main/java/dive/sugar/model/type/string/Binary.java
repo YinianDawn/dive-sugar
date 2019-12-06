@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  */
 public class Binary extends BaseBinaryColumn {
 
-    static {
+    {
         lengthMax = 255;
     }
 

@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  */
 public class LongText extends BaseTextColumn {
 
-    static {
+    {
         lengthMax = 4294967295L;
     }
 

@@ -16,15 +16,15 @@ public class Year extends BaseDateColumn {
 
     // `id` year(4) DEFAULT NULL
 
-    static {
-        SDF = new SimpleDateFormat("yyyy");
+    {
+        sdf = new SimpleDateFormat("yyyy");
         try {
-            min = SDF.parse("1900");
+            min = sdf.parse("1900");
         } catch (ParseException e) {
             e.printStackTrace();
         }
         try {
-            max = SDF.parse("2156");
+            max = sdf.parse("2156");
         } catch (ParseException e) {
             e.printStackTrace();
         }

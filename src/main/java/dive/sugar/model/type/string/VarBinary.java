@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  */
 public class VarBinary extends BaseBinaryColumn {
 
-    static {
+    {
         lengthMax = 65535;
     }
 

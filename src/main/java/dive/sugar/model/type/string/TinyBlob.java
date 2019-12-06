@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  */
 public class TinyBlob extends BaseBlobColumn {
 
-    static {
+    {
         lengthMax = 255;
     }
 
