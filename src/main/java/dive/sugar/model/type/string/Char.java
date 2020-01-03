@@ -57,7 +57,7 @@ public class Char extends BaseCharColumn {
         if (useful(collate) && !collate.equals(s.collate)) {
             return false;
         }
-//        else if (!useful(charset) && useful(s.collate)) {
+//        else if (!useful(collate) && useful(s.collate)) {
 //            return false;
 //        }
 
