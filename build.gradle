@@ -32,7 +32,7 @@ dependencies {
 }
 
 group = 'dive'
-version = '0.0.17'
+version = '0.0.18'
 
 jar {
     enabled = true

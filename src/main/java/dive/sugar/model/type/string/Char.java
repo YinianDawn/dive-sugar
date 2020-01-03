@@ -50,14 +50,16 @@ public class Char extends BaseCharColumn {
         }
         if (useful(charset) && !charset.equals(s.charset)) {
             return false;
-        } else if (!useful(charset) && useful(s.charset)) {
-            return false;
         }
+//        else if (!useful(charset) && useful(s.charset)) {
+//            return false;
+//        }
         if (useful(collate) && !collate.equals(s.collate)) {
             return false;
-        } else if (!useful(charset) && useful(s.collate)) {
-            return false;
         }
+//        else if (!useful(charset) && useful(s.collate)) {
+//            return false;
+//        }
 
         if (isTrue(notNull) && !isTrue(s.notNull)) {
             return false;
