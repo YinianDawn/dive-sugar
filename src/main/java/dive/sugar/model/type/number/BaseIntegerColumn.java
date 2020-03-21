@@ -172,10 +172,10 @@ public abstract class BaseIntegerColumn extends Column {
         }
 
         Integer length = this.length;
-        if (!exist(length)) {
+        if (!exist(length) && exist(s.length)) {
             length = defaultLength();
         }
-        if (!length.equals(s.length)) {
+        if (null != length && !length.equals(s.length)) {
             return false;
         }
 
