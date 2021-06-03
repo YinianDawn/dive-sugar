@@ -1,5 +1,6 @@
 package dive.sugar.model;
 
+import dive.sugar.KeyWord;
 import dive.sugar.Sugar;
 import dive.sugar.annotate.EXTEND;
 import dive.sugar.annotate.TABLE;
@@ -231,6 +232,12 @@ public class Table extends Base {
         }
 
         valid = true;
+
+        for (Column column: columns) {
+            if (KeyWord.hasKeyWord(column.name)) {
+                log.error("column name {} is mysql key word in table {}", column.name, name);
+            }
+        }
     }
 
     public void initial(List<Object> initial) {
