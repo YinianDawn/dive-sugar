@@ -379,6 +379,14 @@ public class Table extends Base {
                 }
             }
 
+            if (null != exist) {
+                for (Column c : exist.columns) {
+                    if (columns.stream().map(Column::getName).noneMatch(n -> n.equals(c.getName()))) {
+                        log.error("existed table {} has extra column: {}", name, c.getName());
+                    }
+                }
+            }
+
             try {
                 exist = new Table(stmt, name);
                 if (!exist.isValid()) {
